@@ -33,6 +33,22 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
   }
 }
 
+var baseAppSettings = [
+  {
+    name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+    value: applicationInsights.properties.ConnectionString
+  }
+  {
+    name: 'SCM_DO_BUILD_DURING_DEPLOYMENT'
+    value: 'false'
+  }
+]
+
+var customAppSettings = [for key in objectKeys(appSettings): {
+  name: key
+  value: appSettings[key]
+}]
+
 resource appService 'Microsoft.Web/sites@2023-01-01' = {
   name: name
   location: location
@@ -47,19 +63,7 @@ resource appService 'Microsoft.Web/sites@2023-01-01' = {
     siteConfig: {
       linuxFxVersion: 'NODE|20-lts'
       appCommandLine: 'pm2 serve /home/site/wwwroot --no-daemon --spa'
-      appSettings: union([
-        {
-          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-          value: applicationInsights.properties.ConnectionString
-        }
-        {
-          name: 'SCM_DO_BUILD_DURING_DEPLOYMENT'
-          value: 'false'
-        }
-      ], [for key in objectKeys(appSettings): {
-        name: key
-        value: appSettings[key]
-      }])
+      appSettings: concat(baseAppSettings, customAppSettings)
     }
   }
 }

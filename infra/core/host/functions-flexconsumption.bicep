@@ -24,6 +24,48 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing
   name: applicationInsightsName
 }
 
+resource appServicePlan 'Microsoft.Web/serverfarms@2023-01-01' = {
+  name: '${name}-plan'
+  location: location
+  tags: tags
+  sku: {
+    name: 'Y1'
+    tier: 'Dynamic'
+  }
+  kind: 'functionapp'
+  properties: {
+    reserved: true
+  }
+}
+
+var baseAppSettings = [
+  {
+    name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
+    value: applicationInsights.properties.ConnectionString
+  }
+  {
+    name: 'AzureWebJobsStorage__accountName'
+    value: storageAccount.name
+  }
+  {
+    name: 'FUNCTIONS_EXTENSION_VERSION'
+    value: '~4'
+  }
+  {
+    name: 'FUNCTIONS_WORKER_RUNTIME'
+    value: 'node'
+  }
+  {
+    name: 'WEBSITE_NODE_DEFAULT_VERSION'
+    value: '~20'
+  }
+]
+
+var customAppSettings = [for key in objectKeys(appSettings): {
+  name: key
+  value: appSettings[key]
+}]
+
 resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
   name: name
   location: location
@@ -33,40 +75,11 @@ resource functionApp 'Microsoft.Web/sites@2023-01-01' = {
     type: 'SystemAssigned'
   }
   properties: {
-    functionAppConfig: {
-      deployment: {
-        storage: {
-          type: 'blobContainer'
-          value: '${storageAccount.properties.primaryEndpoints.blob}deployment'
-          authentication: {
-            type: 'SystemAssignedIdentity'
-          }
-        }
-      }
-      scaleAndConcurrency: {
-        maximumInstanceCount: 100
-        instanceMemoryMB: 2048
-      }
-      runtime: { 
-        name: 'node'
-        version: '20'
-      }
-    }
+    serverFarmId: appServicePlan.id
     httpsOnly: true
     siteConfig: {
-      appSettings: union([
-        {
-          name: 'APPLICATIONINSIGHTS_CONNECTION_STRING'
-          value: applicationInsights.properties.ConnectionString
-        }
-        {
-          name: 'AzureWebJobsStorage__accountName'
-          value: storageAccount.name
-        }
-      ], [for key in objectKeys(appSettings): {
-        name: key
-        value: appSettings[key]
-      }])
+      linuxFxVersion: 'NODE|20'
+      appSettings: concat(baseAppSettings, customAppSettings)
     }
   }
 }
