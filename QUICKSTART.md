@@ -33,60 +33,48 @@ That's it! The command will:
 
 ## Option 2: Run Locally (Development)
 
-**Prerequisites:** Node.js 22.x (LTS)
+**Prerequisites:** Node.js 20+
 
-### 1. Install Dependencies
+Run the portal locally with **mock data** - no Azure subscription required!
+
+### 1. Start the API
 
 ```bash
-# API
 cd api
 npm install
-cd ..
-
-# Web
-cd web
-npm install
-cd ..
-```
-
-### 2. Configure Local Settings
-
-Create `api/local.settings.json`:
-```json
-{
-  "IsEncrypted": false,
-  "Values": {
-    "FUNCTIONS_WORKER_RUNTIME": "node",
-    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "COSMOS_ENDPOINT": "https://localhost:8081",
-    "COSMOS_DATABASE_NAME": "AzureUpdatesDB",
-    "COSMOS_CONTAINER_NAME": "Updates"
-  }
-}
-```
-
-### 3. Start Development Servers
-
-**Terminal 1 - API:**
-```bash
-cd api
 npm start
 ```
 
-**Terminal 2 - Web:**
+The API will automatically use mock data for local development.
+
+### 2. Start the Web App
+
+In a separate terminal:
+
 ```bash
 cd web
+npm install
 npm run dev
 ```
 
-**Access:**
-- Frontend: http://localhost:5173
-- API: http://localhost:7071
+### 3. Access the Portal
 
-**Note:** Without CosmosDB, the API won't have data. You can:
-- Use Azure CosmosDB Emulator (Windows)
-- Deploy just CosmosDB to Azure and connect locally
-- Mock the data in the frontend for UI development
+**Open:** http://localhost:5173
+
+You'll see 6 sample updates and blog posts to test filtering and search!
+
+**API Direct Access:** http://localhost:7071/api/updates
+
+📖 **For detailed local development guide, see [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md)**
+
+### Mock Data Mode
+
+The API automatically runs in mock data mode when no CosmosDB endpoint is configured. This allows you to:
+- ✅ Develop and test the UI without Azure
+- ✅ Work offline
+- ✅ Iterate quickly with no network latency
+
+**To connect to real CosmosDB locally**, see [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md#advanced-connect-to-real-cosmosdb)
 
 ---
 

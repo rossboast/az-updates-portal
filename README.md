@@ -79,21 +79,25 @@ A production-ready web application that aggregates Azure announcements, updates,
 
 ### Local Development
 
-**API (Azure Functions)**:
+Run both API and web app locally with **mock data** (no Azure required):
+
+**Terminal 1 - API:**
 ```bash
 cd api
 npm install
 npm start
 ```
 
-**Web (Vue.js)**:
+**Terminal 2 - Web:**
 ```bash
 cd web
 npm install
 npm run dev
 ```
 
-The web app will proxy API requests to `http://localhost:7071` during development.
+Open `http://localhost:5173` to see the portal with sample data!
+
+📖 **See [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md) for detailed local setup guide**
 
 ## Project Structure
 
