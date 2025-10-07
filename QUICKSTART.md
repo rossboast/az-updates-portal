@@ -33,7 +33,7 @@ That's it! The command will:
 
 ## Option 2: Run Locally (Development)
 
-**Prerequisites:** Node.js 20+
+**Prerequisites:** Node.js 22.x (LTS)
 
 ### 1. Install Dependencies
 
