@@ -1,6 +1,19 @@
 # Azure Updates Portal
 
-A comprehensive web application that aggregates Azure announcements, updates, and blog posts from multiple sources. Built with Vue.js 3, Azure Functions, and CosmosDB, this portal provides a centralized, filterable view of the latest Azure content.
+A production-ready web application that aggregates Azure announcements, updates, and blog posts from multiple sources into a single, filterable interface. Built with Vue.js 3, Azure Functions, and CosmosDB.
+
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/)
+
+**🚀 Quick Deploy:** `azd up` (requires [Azure Developer CLI](https://aka.ms/azd))
+
+**✨ Key Features:**
+- 🔄 Automatic content aggregation from multiple Azure sources
+- 🎯 Filter by category (Compute, Integration, AI, etc.)
+- 🔍 Real-time search functionality
+- 📱 Responsive, mobile-friendly design
+- 🔒 Secure with managed identities
+- 💰 Cost-optimized (~$15-20/month)
+- 📚 Comprehensive documentation
 
 ## Features
 
