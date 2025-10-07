@@ -147,5 +147,7 @@ dist
 
 # Azure Developer CLI (azd)
 .azure/
+!.azure/hooks/
 **/.env
+!**/.env.example
 **/local.settings.json
