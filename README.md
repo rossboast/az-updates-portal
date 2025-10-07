@@ -1,138 +1,237 @@
-# Azure Application Template
+# Azure Updates Portal
 
-A comprehensive development environment template for building Azure applications with GitHub Copilot integration. This template provides pre-configured development containers, language-specific coding standards, and AI-powered development assistants for Python, .NET, Node.js, Vue.js, Bicep, and Azure Functions.
+A comprehensive web application that aggregates Azure announcements, updates, and blog posts from multiple sources. Built with Vue.js 3, Azure Functions, and CosmosDB, this portal provides a centralized, filterable view of the latest Azure content.
 
 ## Features
 
-### Development Environment
-- **Dev Container**: Pre-configured container with Azure CLI, Azure Developer CLI (azd), Python, .NET, Node.js, and PowerShell
-- **VS Code Integration**: Auto-installs extensions for Azure development, Bicep, GitHub Copilot, and language-specific tools
-- **Multi-Language Support**: Ready for Python, .NET (C#), Node.js, Vue.js 3, and infrastructure-as-code with Bicep
+### Frontend (Vue.js 3)
+- **Modern UI**: Clean, responsive interface with gradient backgrounds and card-based layout
+- **Real-time Filtering**: Filter by category, type (updates vs blogs), and search query
+- **Configurable Categories**: Support for Azure categories like Compute, Integration, AI, Development
+- **State Management**: Pinia store for efficient state handling
+- **API Integration**: Connects to backend API for dynamic content
 
-### GitHub Copilot Customization
-- **Custom Instructions**: Concise, action-oriented coding guidelines across all supported languages
-- **Language-Specific Standards**: Tailored instructions for:
-  - Python (PEP 8, type hints, docstrings)
-  - C# and .NET (C# 13, async/await, SOLID principles)
-  - Node.js (ES2022, Vitest testing)
-  - Vue.js 3 (Composition API, TypeScript, Pinia)
-  - Bicep (Azure Verified Modules, infrastructure as code)
-  - Azure Functions (Flex Consumption, JavaScript v4, Python v2)
-  - Playwright (E2E testing, accessibility)
+### Backend (Azure Functions)
+- **REST API**: HTTP endpoints for fetching updates and categories
+- **Timer Triggers**: Automated fetching of Azure updates and blog posts
+- **Multiple Sources**: Aggregates content from:
+  - Azure Updates RSS feed
+  - Azure Blog
+  - Azure SDK Blog
+  - Azure Tech Community
+- **Extensible Design**: Easy to add new feed sources
 
-### Specialized Copilot Chat Modes
-- **Azure Principal Architect**: Expert guidance using Azure Well-Architected Framework principles
-- **Azure Verified Modules (AVM) Bicep**: Specialized assistance for infrastructure as code
-- **Playwright Tester**: E2E test generation and execution support
-
-### Copilot Prompts & Workflows
-- **Azure Cost Optimization**: Analyze IaC files and resources, generate cost optimization recommendations as GitHub issues
-- **Azure Resource Health Diagnostics**: Diagnose and troubleshoot Azure resource issues
-- **Playwright Test Generation**: Generate comprehensive E2E tests from website exploration
-- **Playwright Website Exploration**: Automated website exploration and documentation
+### Infrastructure (Bicep IaC)
+- **Azure Functions**: Flex Consumption plan for cost-effective compute
+- **CosmosDB**: NoSQL database for storing and querying updates
+- **App Service**: Linux-based hosting for Vue.js frontend
+- **Application Insights**: Monitoring and telemetry
+- **Managed Identity**: Secure, password-less authentication
+- **Azure Developer CLI**: One-command deployment with `azd up`
 
 ## Getting Started
 
 ### Prerequisites
-- Visual Studio Code with Dev Containers extension
-- Docker Desktop
-- GitHub account with Copilot access
+- Azure subscription
+- Azure Developer CLI ([azd](https://aka.ms/azd))
+- Node.js 20+
+- Visual Studio Code (recommended)
 
 ### Quick Start
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/rossboast/az-app-template.git
-   cd az-app-template
+   git clone https://github.com/rossboast/az-updates-portal2.git
+   cd az-updates-portal2
    ```
 
-2. **Open in Dev Container**:
-   - Open the folder in VS Code
-   - Click "Reopen in Container" when prompted, or use Command Palette: `Dev Containers: Reopen in Container`
+2. **Login to Azure**:
+   ```bash
+   azd auth login
+   ```
 
-3. **Start developing**:
-   - All tools and extensions are pre-installed
-   - GitHub Copilot will use the custom instructions automatically
-   - Access specialized chat modes via `@workspace` in Copilot Chat
+3. **Deploy to Azure**:
+   ```bash
+   azd up
+   ```
+   
+   This single command will:
+   - Provision all Azure resources (Functions, CosmosDB, App Service, etc.)
+   - Build and deploy the API and web application
+   - Configure all necessary settings and connections
 
-### Using Copilot Chat Modes
+4. **Access the portal**:
+   - The deployment will output the web application URL
+   - Open it in your browser to view the Azure Updates Portal
 
-To activate a specialized chat mode in VS Code:
-1. Open GitHub Copilot Chat (`Ctrl+Shift+I` or `Cmd+Shift+I`)
-2. Use `@workspace` and reference the chat mode, e.g., `@workspace /mode azure-principal-architect`
-3. Or use prompts directly with `@workspace` followed by the prompt name
+### Local Development
 
-## Repository Structure
+**API (Azure Functions)**:
+```bash
+cd api
+npm install
+npm start
+```
+
+**Web (Vue.js)**:
+```bash
+cd web
+npm install
+npm run dev
+```
+
+The web app will proxy API requests to `http://localhost:7071` during development.
+
+## Project Structure
 
 ```
 .
-├── .devcontainer/              # Dev container configuration
-│   └── devcontainer.json       # Container setup with tools and extensions
-├── .github/
-│   ├── copilot-instructions.md # General Copilot guidelines
-│   ├── chatmodes/              # Specialized Copilot chat modes
-│   │   ├── azure-principal-architect.chatmode.md
-│   │   ├── azure-verified-modules-bicep.chatmode.md
-│   │   └── playwright-tester.chatmode.md
-│   ├── instructions/           # Language-specific coding standards
-│   │   ├── azure.instructions.md
-│   │   ├── azure-functions.instructions.md
-│   │   ├── bicep-avm.instructions.md
-│   │   ├── csharp-dotnet.instructions.md
-│   │   ├── nodejs.instructions.md
-│   │   ├── playwright.instructions.md
-│   │   ├── python.instructions.md
-│   │   └── vuejs.instructions.md
-│   └── prompts/                # AI-powered workflow prompts
-│       ├── az-cost-optimize.prompt.md
-│       ├── azure-resource-health-diagnose.prompt.md
-│       ├── playwright-explore-website.prompt.md
-│       └── playwright-generate-test.prompt.md
-├── .gitignore                  # Python, Node.js, and azd exclusions
-└── README.md                   # This file
+├── api/                        # Azure Functions backend
+│   ├── src/
+│   │   ├── app.js             # Main Functions v4 app
+│   │   ├── handlers/          # Function handlers
+│   │   │   ├── updates.js     # HTTP API endpoints
+│   │   │   ├── fetchAzureUpdates.js    # Timer-triggered fetcher
+│   │   │   └── fetchBlogPosts.js       # Timer-triggered fetcher
+│   │   └── lib/
+│   │       └── cosmosClient.js         # CosmosDB client
+│   ├── host.json
+│   └── package.json
+├── web/                        # Vue.js 3 frontend
+│   ├── src/
+│   │   ├── App.vue            # Main component
+│   │   ├── main.js            # Application entry
+│   │   ├── components/        # Vue components
+│   │   │   ├── Filters.vue
+│   │   │   └── UpdateCard.vue
+│   │   └── stores/            # Pinia state management
+│   │       └── updates.js
+│   ├── index.html
+│   ├── vite.config.js
+│   └── package.json
+├── infra/                      # Bicep infrastructure as code
+│   ├── main.bicep             # Main infrastructure definition
+│   ├── main.parameters.json
+│   ├── abbreviations.json
+│   └── core/                  # Reusable Bicep modules
+│       ├── database/
+│       ├── host/
+│       ├── monitor/
+│       ├── security/
+│       └── storage/
+├── .github/                    # GitHub configuration
+│   ├── copilot-instructions.md
+│   ├── chatmodes/
+│   ├── instructions/
+│   └── prompts/
+├── azure.yaml                  # Azure Developer CLI config
+└── README.md
 ```
 
 ## Customization
 
-### Adding New Languages or Frameworks
-1. Add relevant VS Code extensions to `.devcontainer/devcontainer.json`
-2. Install language tools in the dev container features
-3. Create instruction files in `.github/instructions/` following the existing patterns
-4. Update `.gitignore` for language-specific artifacts
+### Adding New Feed Sources
 
-### Creating Custom Chat Modes
-1. Create a new `.chatmode.md` file in `.github/chatmodes/`
-2. Define the mode description, tools, and responsibilities
-3. Follow the existing structure for consistency
+To add a new blog or update feed:
 
-### Adding Custom Prompts
-1. Create a new `.prompt.md` file in `.github/prompts/`
-2. Specify mode (agent/assistant), description, and workflow steps
-3. Document prerequisites and success criteria
+1. Edit `api/src/handlers/fetchBlogPosts.js` or create a new handler
+2. Add the feed URL and configuration to the `BLOG_FEEDS` array:
+   ```javascript
+   {
+     url: 'https://example.com/feed/',
+     name: 'Example Blog',
+     categories: ['Azure', 'Custom']
+   }
+   ```
+3. The system will automatically start fetching from the new source
 
-## Best Practices
+### Adding New Categories
 
-- **Keep responses concise**: The template emphasizes brief, actionable guidance
-- **Use type safety**: Enable TypeScript, type hints, and strict typing across all languages
-- **Follow framework conventions**: Leverage modern patterns (async/await, Composition API, Azure Verified Modules)
-- **Test thoroughly**: Include unit tests and E2E tests for critical functionality
-- **Optimize for Azure**: Use managed identities, Azure Verified Modules, and Well-Architected Framework principles
+Categories are automatically extracted from feed sources. To add custom categories:
+
+1. Update the RSS parsing logic in the fetch handlers
+2. Or manually tag items with categories in the `parseRSSFeed` function
+
+### Customizing Update Frequency
+
+Edit the timer schedules in `api/src/app.js`:
+- `fetchAzureUpdates`: Currently runs every 6 hours
+- `fetchBlogPosts`: Currently runs every 12 hours
+
+### Frontend Customization
+
+- **Styling**: Edit `web/src/style.css` for colors, fonts, and layout
+- **Components**: Modify Vue components in `web/src/components/`
+- **Filters**: Update filter logic in `web/src/stores/updates.js`
+
+## Architecture
+
+### Data Flow
+
+1. **Timer Triggers**: Azure Functions run on schedule to fetch content
+2. **RSS Parsing**: Functions parse RSS feeds and extract updates
+3. **Storage**: Updates are stored in CosmosDB with categories and metadata
+4. **API**: HTTP-triggered functions expose REST endpoints
+5. **Frontend**: Vue.js app fetches and displays updates with filtering
+
+### Security
+
+- **Managed Identity**: Functions authenticate to CosmosDB without credentials
+- **HTTPS Only**: All endpoints enforce HTTPS
+- **CORS**: Configured for secure cross-origin requests
+- **Role-Based Access**: CosmosDB uses fine-grained role assignments
+
+### Scalability
+
+- **Flex Consumption**: Azure Functions scale automatically based on demand
+- **CosmosDB**: Scales horizontally with partitioning by type
+- **Static Frontend**: App Service serves the built Vue.js app efficiently
+
+## Future Enhancements
+
+- Add authentication for personalized feeds
+- Implement bookmarking and favorites
+- Add email notifications for new updates
+- Cross-reference with Microsoft Learn documentation
+- Add AI-powered content summarization
+- Support for custom RSS feed subscriptions
+- Real-time updates with SignalR
 
 ## Contributing
 
-This template is designed to be forked and customized for your specific needs. Key customization points:
-- Dev container configuration (`.devcontainer/`)
-- Copilot instructions and chat modes (`.github/`)
-- Project-specific tooling and dependencies
+Contributions are welcome! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
 ## License
 
-This is a template repository intended for use as a starting point for Azure applications.
+MIT License - feel free to use this project as a template for your own Azure applications.
+
+## API Endpoints
+
+### GET `/api/updates`
+Get all updates with optional filtering
+
+Query Parameters:
+- `category` (optional): Filter by category
+- `limit` (optional): Number of results (default: 50)
+
+### GET `/api/categories`
+Get all available categories
+
+### GET `/api/updates/category/{category}`
+Get updates for a specific category
+
+Query Parameters:
+- `limit` (optional): Number of results (default: 50)
 
 ## Resources
 
-- [Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/)
-- [Azure Verified Modules](https://azure.github.io/Azure-Verified-Modules/)
-- [GitHub Copilot Documentation](https://docs.github.com/copilot)
-- [Dev Containers Documentation](https://containers.dev/)
+- [Azure Functions Documentation](https://learn.microsoft.com/azure/azure-functions/)
+- [Vue.js 3 Documentation](https://vuejs.org/)
+- [Pinia State Management](https://pinia.vuejs.org/)
+- [Azure CosmosDB Documentation](https://learn.microsoft.com/azure/cosmos-db/)
 - [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/)
+- [Azure Updates RSS Feed](https://azure.microsoft.com/en-us/updates/)

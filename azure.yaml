@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: azure-updates-portal
+metadata:
+  template: azure-updates-portal
+
+services:
+  api:
+    project: ./api
+    language: js
+    host: function
+  web:
+    project: ./web
+    language: js
+    host: appservice
