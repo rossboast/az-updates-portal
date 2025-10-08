@@ -6,7 +6,8 @@
   "main": "src/app.js",
   "scripts": {
     "start": "func start",
-    "test": "node --test"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
@@ -15,5 +16,6 @@
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
+    "vitest": "^1.0.0"
   }
 }

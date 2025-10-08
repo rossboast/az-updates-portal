@@ -3,7 +3,7 @@ import { createOrUpdateItem } from '../lib/cosmosClient.js';
 
 const AZURE_UPDATES_RSS = 'https://azurecomcdn.azureedge.net/en-us/updates/feed/';
 
-export async function fetchAzureUpdates(myTimer, context) {
+export async function fetchUpdates(myTimer, context) {
   context.log('Fetching Azure updates...');
 
   try {

@@ -1,6 +1,6 @@
 import { app } from '@azure/functions';
 import { getUpdates, getCategories, getUpdatesByCategory } from './handlers/updates.js';
-import { fetchAzureUpdates } from './handlers/fetchAzureUpdates.js';
+import { fetchUpdates } from './handlers/fetchUpdates.js';
 import { fetchBlogPosts } from './handlers/fetchBlogPosts.js';
 
 // HTTP endpoints
@@ -26,9 +26,9 @@ app.http('getUpdatesByCategory', {
 });
 
 // Timer-triggered functions to fetch updates
-app.timer('fetchAzureUpdates', {
+app.timer('fetchUpdates', {
   schedule: '0 0 */6 * * *', // Every 6 hours
-  handler: fetchAzureUpdates
+  handler: fetchUpdates
 });
 
 app.timer('fetchBlogPosts', {
