@@ -1,0 +1,21 @@
+{
+  "name": "azure-updates-portal-api",
+  "version": "1.0.0",
+  "description": "API for Azure Updates Portal",
+  "type": "module",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "func start",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "@azure/cosmos": "^4.0.0",
+    "@azure/identity": "^4.0.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "vitest": "^1.0.0"
+  }
+}
