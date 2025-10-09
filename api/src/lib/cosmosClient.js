@@ -69,6 +69,28 @@ const mockUpdates = [
     source: 'Azure Updates',
     type: 'update',
     categories: ['Integration', 'Logic Apps', 'Azure']
+  },
+  {
+    id: 'mock-video-1',
+    title: 'Building Cloud-Native Applications with Azure',
+    description: 'Learn how to design and build modern cloud-native applications using Azure services. This session covers architecture patterns, best practices, and real-world examples from Microsoft Build.',
+    link: 'https://www.youtube.com/watch?v=example1',
+    publishedDate: new Date(Date.now() - 604800000).toISOString(),
+    source: 'Microsoft Build',
+    type: 'video',
+    author: 'Microsoft',
+    categories: ['Microsoft Build', 'Events', 'Videos', 'Microsoft', 'Azure']
+  },
+  {
+    id: 'mock-video-2',
+    title: 'Azure AI Services: What\'s New',
+    description: 'Discover the latest innovations in Azure AI Services including new models, enhanced capabilities, and integration scenarios. Presented at Microsoft Ignite.',
+    link: 'https://www.youtube.com/watch?v=example2',
+    publishedDate: new Date(Date.now() - 691200000).toISOString(),
+    source: 'Microsoft Ignite',
+    type: 'video',
+    author: 'Microsoft',
+    categories: ['Microsoft Ignite', 'Events', 'Videos', 'Microsoft', 'Azure', 'AI']
   }
 ];
 

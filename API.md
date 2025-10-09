@@ -54,6 +54,17 @@ curl "https://{function-app}.azurewebsites.net/api/updates?limit=10"
     "type": "blog",
     "author": "John Doe",
     "categories": ["Azure", "Development", "AI"]
+  },
+  {
+    "id": "youtube-abc123",
+    "title": "Building Cloud-Native Applications with Azure",
+    "description": "Learn how to design and build modern cloud-native applications...",
+    "link": "https://www.youtube.com/watch?v=abc123",
+    "publishedDate": "2024-09-28T14:00:00.000Z",
+    "source": "Microsoft Build",
+    "type": "video",
+    "author": "Microsoft",
+    "categories": ["Microsoft Build", "Events", "Videos", "Azure"]
   }
 ]
 ```
@@ -146,21 +157,21 @@ curl "https://{function-app}.azurewebsites.net/api/updates/category/AI?limit=20"
 
 ## Data Model
 
-### Update/Blog Post Object
+### Update/Blog Post/Video Object
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `id` | string | Yes | Unique identifier (usually the URL) |
-| `title` | string | Yes | Title of the update or blog post |
-| `description` | string | Yes | Brief description or excerpt (max 500 chars for blogs) |
-| `link` | string | Yes | URL to the full article |
+| `title` | string | Yes | Title of the update, blog post, or video |
+| `description` | string | Yes | Brief description or excerpt (max 500 chars) |
+| `link` | string | Yes | URL to the full article or video |
 | `publishedDate` | string (ISO 8601) | Yes | Publication date and time |
-| `source` | string | Yes | Source name (e.g., "Azure Updates", "Azure Blog") |
-| `type` | string | Yes | Type: "update" or "blog" |
+| `source` | string | Yes | Source name (e.g., "Azure Updates", "Azure Blog", "Microsoft Build", "Microsoft Ignite") |
+| `type` | string | Yes | Type: "update", "blog", or "video" |
 | `categories` | string[] | Yes | Array of category tags |
-| `author` | string | No | Author name (blogs only) |
+| `author` | string | No | Author name (optional for blogs and videos) |
 
-**Example:**
+**Example Update:**
 ```json
 {
   "id": "unique-id",
@@ -170,8 +181,22 @@ curl "https://{function-app}.azurewebsites.net/api/updates/category/AI?limit=20"
   "publishedDate": "2024-10-07T12:00:00.000Z",
   "source": "Source Name",
   "type": "update",
-  "categories": ["Category1", "Category2"],
-  "author": "Optional Author"
+  "categories": ["Category1", "Category2"]
+}
+```
+
+**Example Video:**
+```json
+{
+  "id": "youtube-abc123",
+  "title": "Building Cloud-Native Applications with Azure",
+  "description": "Learn how to design and build modern cloud-native applications...",
+  "link": "https://www.youtube.com/watch?v=abc123",
+  "publishedDate": "2024-09-28T14:00:00.000Z",
+  "source": "Microsoft Build",
+  "type": "video",
+  "author": "Microsoft",
+  "categories": ["Microsoft Build", "Events", "Videos", "Azure"]
 }
 ```
 
