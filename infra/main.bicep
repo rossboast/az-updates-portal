@@ -60,6 +60,7 @@ module cosmos './core/database/cosmos-account.bicep' = {
       {
         name: 'Updates'
         partitionKey: '/type'
+        defaultTtl: 31536000  // 12 months in seconds (365 days * 24 hours * 60 minutes * 60 seconds)
       }
     ]
   }

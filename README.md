@@ -244,6 +244,21 @@ Get updates for a specific category
 Query Parameters:
 - `limit` (optional): Number of results (default: 50)
 
+## Documentation
+
+### Complete Guides
+- **[QUICKSTART.md](QUICKSTART.md)** - Get started in 5 minutes
+- **[LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md)** - Run locally with mock data
+- **[TESTING.md](TESTING.md)** - Testing guide and best practices
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** - Complete deployment guide
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Technical architecture details
+- **[API.md](API.md)** - API reference documentation
+- **[FEATURES.md](FEATURES.md)** - Feature documentation
+- **[COSMOSDB_RATIONALE.md](COSMOSDB_RATIONALE.md)** - Why CosmosDB was chosen
+- **[DATA_RETENTION.md](DATA_RETENTION.md)** - 12-month TTL implementation details
+- **[DATA_PREFETCH_OPTIONS.md](DATA_PREFETCH_OPTIONS.md)** - Pre-fetching strategies explained
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines
+
 ## Resources
 
 - [Azure Functions Documentation](https://learn.microsoft.com/azure/azure-functions/)

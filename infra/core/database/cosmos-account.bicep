@@ -56,6 +56,7 @@ resource cosmosContainers 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/co
         ]
         kind: 'Hash'
       }
+      defaultTtl: container.?defaultTtl ?? -1
     }
   }
 }]

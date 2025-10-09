@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.37.4.10188",
-      "templateHash": "15531258107146778771"
+      "templateHash": "1826354517611703219"
     }
   },
   "parameters": {
@@ -467,7 +467,8 @@
             "value": [
               {
                 "name": "Updates",
-                "partitionKey": "/type"
+                "partitionKey": "/type",
+                "defaultTtl": 31536000
               }
             ]
           }
@@ -479,7 +480,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.37.4.10188",
-              "templateHash": "18134116903481819895"
+              "templateHash": "2155355987385493322"
             }
           },
           "parameters": {
@@ -568,7 +569,8 @@
                       "[parameters('containers')[copyIndex()].partitionKey]"
                     ],
                     "kind": "Hash"
-                  }
+                  },
+                  "defaultTtl": "[coalesce(tryGet(parameters('containers')[copyIndex()], 'defaultTtl'), -1)]"
                 }
               },
               "dependsOn": [
