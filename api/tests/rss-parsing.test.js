@@ -1,155 +1,185 @@
 import { describe, it, expect } from 'vitest';
+import Parser from 'rss-parser';
 
-// Replicate the extractTag function from our handlers
-function extractTag(text, tag) {
-  // Special handling for link tags - they can appear in multiple formats
-  if (tag === 'link') {
-    // First, try to extract href attribute (Atom format): <link href="URL"/>
-    const hrefRegex = /<link[^>]*href=["']([^"']+)["'][^>]*\/?>/i;
-    const hrefMatch = text.match(hrefRegex);
-    if (hrefMatch && hrefMatch[1]) {
-      return hrefMatch[1].trim();
+describe('RSS Parser Library Integration', () => {
+  const parser = new Parser({
+    customFields: {
+      item: ['dc:creator', 'author']
     }
-    
-    // Fall through to standard extraction for RSS 2.0 format
-  }
-  
-  // Standard tag extraction: <tag>content</tag>
-  const regex = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, 'i');
-  const match = text.match(regex);
-  return match ? match[1].trim() : '';
-}
+  });
 
-describe('RSS Link Extraction', () => {
-  describe('Standard RSS 2.0 Format', () => {
-    it('should extract link from standard format', () => {
-      const rss = `
-        <item>
-          <title>Test Post</title>
-          <link>https://example.com/post1</link>
-          <description>Description</description>
-        </item>
-      `;
-      const link = extractTag(rss, 'link');
-      expect(link).toBe('https://example.com/post1');
+  describe('RSS 2.0 Feed Parsing', () => {
+    it('should parse standard RSS 2.0 feed', async () => {
+      const rss = `<?xml version="1.0" encoding="UTF-8"?>
+        <rss version="2.0">
+          <channel>
+            <title>Test Feed</title>
+            <item>
+              <title>Test Post</title>
+              <link>https://example.com/post1</link>
+              <description>Test description</description>
+              <pubDate>Mon, 07 Oct 2024 12:00:00 GMT</pubDate>
+              <guid>https://example.com/post1</guid>
+              <category>Technology</category>
+            </item>
+          </channel>
+        </rss>`;
+      
+      const feed = await parser.parseString(rss);
+      
+      expect(feed.items).toHaveLength(1);
+      expect(feed.items[0].title).toBe('Test Post');
+      expect(feed.items[0].link).toBe('https://example.com/post1');
+      expect(feed.items[0].contentSnippet).toBe('Test description');
+      expect(feed.items[0].guid).toBe('https://example.com/post1');
     });
 
-    it('should extract link with CDATA in other fields', () => {
-      const rss = `
-        <item>
-          <title><![CDATA[Test Post]]></title>
-          <link>https://azure.microsoft.com/blog/test-post</link>
-          <description><![CDATA[A test description]]></description>
-        </item>
-      `;
-      const link = extractTag(rss, 'link');
-      expect(link).toBe('https://azure.microsoft.com/blog/test-post');
-    });
-
-    it('should trim whitespace from links', () => {
-      const rss = `
-        <item>
-          <link>
-            https://example.com/post-with-whitespace
-          </link>
-        </item>
-      `;
-      const link = extractTag(rss, 'link');
-      expect(link).toBe('https://example.com/post-with-whitespace');
+    it('should handle CDATA in RSS fields', async () => {
+      const rss = `<?xml version="1.0" encoding="UTF-8"?>
+        <rss version="2.0">
+          <channel>
+            <title>Test Feed</title>
+            <item>
+              <title><![CDATA[Post with <special> characters]]></title>
+              <link>https://example.com/post2</link>
+              <description><![CDATA[Description with <HTML> tags]]></description>
+            </item>
+          </channel>
+        </rss>`;
+      
+      const feed = await parser.parseString(rss);
+      
+      expect(feed.items[0].title).toBe('Post with <special> characters');
+      expect(feed.items[0].link).toBe('https://example.com/post2');
     });
   });
 
-  describe('Atom Format', () => {
-    it('should extract href from self-closing link tag', () => {
-      const atom = `
-        <entry>
-          <title>Test Post</title>
-          <link href="https://example.com/atom-post" rel="alternate"/>
-          <id>https://example.com/atom-post</id>
-        </entry>
-      `;
-      const link = extractTag(atom, 'link');
-      expect(link).toBe('https://example.com/atom-post');
+  describe('Atom Feed Parsing', () => {
+    it('should parse Atom feed format', async () => {
+      const atom = `<?xml version="1.0" encoding="UTF-8"?>
+        <feed xmlns="http://www.w3.org/2005/Atom">
+          <title>Test Atom Feed</title>
+          <entry>
+            <title>Atom Post</title>
+            <link href="https://example.com/atom-post" rel="alternate"/>
+            <id>https://example.com/atom-post</id>
+            <summary>Atom description</summary>
+            <published>2024-10-07T12:00:00Z</published>
+          </entry>
+        </feed>`;
+      
+      const feed = await parser.parseString(atom);
+      
+      expect(feed.items).toHaveLength(1);
+      expect(feed.items[0].title).toBe('Atom Post');
+      expect(feed.items[0].link).toBe('https://example.com/atom-post');
+      expect(feed.items[0].id).toBe('https://example.com/atom-post');
     });
 
-    it('should extract href from link tag with attributes', () => {
-      const atom = `
-        <entry>
-          <link href="https://devblogs.microsoft.com/azure-sdk/post" rel="alternate" type="text/html"></link>
-        </entry>
-      `;
-      const link = extractTag(atom, 'link');
-      expect(link).toBe('https://devblogs.microsoft.com/azure-sdk/post');
+    it('should extract link from Atom href attribute', async () => {
+      const atom = `<?xml version="1.0" encoding="UTF-8"?>
+        <feed xmlns="http://www.w3.org/2005/Atom">
+          <entry>
+            <title>Test</title>
+            <link href="https://devblogs.microsoft.com/azure-sdk/test" rel="alternate" type="text/html"/>
+          </entry>
+        </feed>`;
+      
+      const feed = await parser.parseString(atom);
+      
+      expect(feed.items[0].link).toBe('https://devblogs.microsoft.com/azure-sdk/test');
+    });
+  });
+
+  describe('Data Field Mapping', () => {
+    it('should provide date in multiple formats', async () => {
+      const rss = `<?xml version="1.0" encoding="UTF-8"?>
+        <rss version="2.0">
+          <channel>
+            <item>
+              <title>Test</title>
+              <link>https://example.com/test</link>
+              <pubDate>Mon, 07 Oct 2024 12:00:00 GMT</pubDate>
+            </item>
+          </channel>
+        </rss>`;
+      
+      const feed = await parser.parseString(rss);
+      const item = feed.items[0];
+      
+      expect(item.pubDate).toBeDefined();
+      expect(item.isoDate).toBeDefined();
+      expect(new Date(item.isoDate)).toBeInstanceOf(Date);
     });
 
-    it('should handle link with single quotes', () => {
-      const atom = `
-        <entry>
-          <link href='https://example.com/single-quotes' rel='alternate'/>
-        </entry>
-      `;
-      const link = extractTag(atom, 'link');
-      expect(link).toBe('https://example.com/single-quotes');
+    it('should extract custom fields', async () => {
+      const rss = `<?xml version="1.0" encoding="UTF-8"?>
+        <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
+          <channel>
+            <item>
+              <title>Test</title>
+              <link>https://example.com/test</link>
+              <dc:creator>John Doe</dc:creator>
+            </item>
+          </channel>
+        </rss>`;
+      
+      const feed = await parser.parseString(rss);
+      
+      expect(feed.items[0]['dc:creator']).toBe('John Doe');
+    });
+
+    it('should extract categories as array', async () => {
+      const rss = `<?xml version="1.0" encoding="UTF-8"?>
+        <rss version="2.0">
+          <channel>
+            <item>
+              <title>Test</title>
+              <link>https://example.com/test</link>
+              <category>Azure</category>
+              <category>Cloud</category>
+            </item>
+          </channel>
+        </rss>`;
+      
+      const feed = await parser.parseString(rss);
+      
+      expect(feed.items[0].categories).toContain('Azure');
+      expect(feed.items[0].categories).toContain('Cloud');
     });
   });
 
   describe('Edge Cases', () => {
-    it('should return empty string for missing link', () => {
-      const rss = `
-        <item>
-          <title>Test Post</title>
-          <description>No link here</description>
-        </item>
-      `;
-      const link = extractTag(rss, 'link');
-      expect(link).toBe('');
+    it('should handle feed with no items', async () => {
+      const rss = `<?xml version="1.0" encoding="UTF-8"?>
+        <rss version="2.0">
+          <channel>
+            <title>Empty Feed</title>
+          </channel>
+        </rss>`;
+      
+      const feed = await parser.parseString(rss);
+      
+      expect(feed.items).toHaveLength(0);
     });
 
-    it('should return empty string for empty link tag', () => {
-      const rss = `
-        <item>
-          <link></link>
-        </item>
-      `;
-      const link = extractTag(rss, 'link');
-      expect(link).toBe('');
-    });
-
-    it('should handle real Azure Updates RSS format', () => {
-      const rss = `
-        <item>
-          <title>Azure OpenAI Service Update</title>
-          <link>https://azure.microsoft.com/en-us/updates/azure-openai-service-update/</link>
-          <description>New features available</description>
-          <pubDate>Mon, 07 Oct 2024 12:00:00 GMT</pubDate>
-          <guid>https://azure.microsoft.com/en-us/updates/azure-openai-service-update/</guid>
-        </item>
-      `;
-      const link = extractTag(rss, 'link');
-      expect(link).toBe('https://azure.microsoft.com/en-us/updates/azure-openai-service-update/');
-    });
-  });
-
-  describe('Other Tag Extraction', () => {
-    it('should extract title correctly', () => {
-      const rss = `
-        <item>
-          <title>My Blog Post Title</title>
-          <link>https://example.com/post</link>
-        </item>
-      `;
-      const title = extractTag(rss, 'title');
-      expect(title).toBe('My Blog Post Title');
-    });
-
-    it('should extract guid correctly', () => {
-      const rss = `
-        <item>
-          <guid>https://example.com/unique-id-123</guid>
-        </item>
-      `;
-      const guid = extractTag(rss, 'guid');
-      expect(guid).toBe('https://example.com/unique-id-123');
+    it('should handle missing optional fields gracefully', async () => {
+      const rss = `<?xml version="1.0" encoding="UTF-8"?>
+        <rss version="2.0">
+          <channel>
+            <item>
+              <title>Minimal Post</title>
+              <link>https://example.com/minimal</link>
+            </item>
+          </channel>
+        </rss>`;
+      
+      const feed = await parser.parseString(rss);
+      const item = feed.items[0];
+      
+      expect(item.title).toBe('Minimal Post');
+      expect(item.link).toBe('https://example.com/minimal');
+      expect(item.categories).toBeUndefined();
     });
   });
 });
