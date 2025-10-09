@@ -114,15 +114,15 @@ The API automatically runs in mock data mode when no CosmosDB endpoint is config
 
 1. **Trigger Data Collection:**
    - Go to Azure Portal → Your Function App
-   - Navigate to Functions → `fetchAzureUpdates`
+   - Navigate to Functions → `fetchUpdates`
    - Click "Code + Test" → "Test/Run"
-   - Repeat for `fetchBlogPosts`
+   - Repeat for `fetchBlogPosts` and `fetchEventVideos`
    - Wait 2-3 minutes for data to populate
 
 2. **View the Portal:**
    - Open the App Service URL (shown after `azd up`)
-   - You should see Azure updates and blog posts
-   - Try filtering by category or searching
+   - You should see Azure updates, blog posts, and event videos
+   - Try filtering by category (including "Microsoft Build", "Microsoft Ignite", "Events") or searching
 
 3. **Explore the Data:**
    - Go to Azure Portal → CosmosDB
