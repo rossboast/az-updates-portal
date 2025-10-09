@@ -85,6 +85,19 @@ function parseRSSFeed(xmlText, feed) {
 }
 
 function extractTag(text, tag) {
+  // Special handling for link tags - they can appear in multiple formats
+  if (tag === 'link') {
+    // First, try to extract href attribute (Atom format): <link href="URL"/>
+    const hrefRegex = /<link[^>]*href=["']([^"']+)["'][^>]*\/?>/i;
+    const hrefMatch = text.match(hrefRegex);
+    if (hrefMatch && hrefMatch[1]) {
+      return hrefMatch[1].trim();
+    }
+    
+    // Fall through to standard extraction for RSS 2.0 format
+  }
+  
+  // Standard tag extraction: <tag>content</tag>
   const regex = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, 'i');
   const match = text.match(regex);
   return match ? match[1].trim() : '';
