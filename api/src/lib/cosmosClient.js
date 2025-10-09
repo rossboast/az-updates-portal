@@ -173,3 +173,22 @@ export async function getItemById(id, partitionKey) {
     return null;
   }
 }
+
+export async function isFirstRun() {
+  const { container } = initializeCosmosClient();
+  
+  if (useMockData || !container) {
+    return false;
+  }
+  
+  try {
+    const { resources } = await container.items.query({
+      query: 'SELECT VALUE COUNT(1) FROM c'
+    }).fetchAll();
+    
+    return resources[0] === 0;
+  } catch (error) {
+    console.error('Failed to check if first run:', error.message);
+    return false;
+  }
+}

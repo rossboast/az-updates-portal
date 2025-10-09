@@ -3,15 +3,31 @@ import { createOrUpdateItem } from '../lib/cosmosClient.js';
 
 const AZURE_UPDATES_RSS = 'https://azurecomcdn.azureedge.net/en-us/updates/feed/';
 
-export async function fetchUpdates(myTimer, context) {
+export async function fetchUpdates(myTimer, context, options = {}) {
+  const { daysBack = null } = options;
+  
   context.log('Fetching Azure updates...');
+  
+  if (daysBack) {
+    context.log(`Filtering updates from last ${daysBack} days only`);
+  }
 
   try {
     const response = await fetch(AZURE_UPDATES_RSS);
     const xmlText = await response.text();
 
-    const updates = parseAzureUpdatesRSS(xmlText);
-    context.log(`Found ${updates.length} Azure updates`);
+    let updates = parseAzureUpdatesRSS(xmlText);
+    context.log(`Found ${updates.length} Azure updates from RSS feed`);
+
+    if (daysBack) {
+      const cutoffDate = new Date();
+      cutoffDate.setDate(cutoffDate.getDate() - daysBack);
+      
+      updates = updates.filter(update => 
+        new Date(update.publishedDate) >= cutoffDate
+      );
+      context.log(`Filtered to ${updates.length} updates from last ${daysBack} days`);
+    }
 
     let savedCount = 0;
     for (const update of updates) {

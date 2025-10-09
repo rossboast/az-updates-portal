@@ -2,6 +2,7 @@ import { app } from '@azure/functions';
 import { getUpdates, getCategories, getUpdatesByCategory } from './handlers/updates.js';
 import { fetchUpdates } from './handlers/fetchUpdates.js';
 import { fetchBlogPosts } from './handlers/fetchBlogPosts.js';
+import { warmupCache } from './handlers/warmupCache.js';
 
 // HTTP endpoints
 app.http('getUpdates', {
@@ -34,4 +35,9 @@ app.timer('fetchUpdates', {
 app.timer('fetchBlogPosts', {
   schedule: '0 0 */12 * * *', // Every 12 hours
   handler: fetchBlogPosts
+});
+
+// Warmup trigger - runs on function app cold start
+app.warmup('warmupCache', {
+  handler: warmupCache
 });
