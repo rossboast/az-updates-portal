@@ -15,7 +15,7 @@ describe('CosmosDB Client - Mock Data Mode', () => {
       
       expect(results).toBeDefined();
       expect(Array.isArray(results)).toBe(true);
-      expect(results.length).toBe(6);
+      expect(results.length).toBe(8);
     });
 
     it('should return updates with specific category', async () => {
@@ -122,6 +122,7 @@ describe('CosmosDB Client - Mock Data Mode', () => {
       const types = [...new Set(results.map(u => u.type))];
       expect(types).toContain('update');
       expect(types).toContain('blog');
+      expect(types).toContain('video');
     });
 
     it('should have multiple categories', async () => {

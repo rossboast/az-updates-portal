@@ -30,7 +30,7 @@ describe('Updates Handlers', () => {
       
       const body = JSON.parse(response.body);
       expect(Array.isArray(body)).toBe(true);
-      expect(body.length).toBe(6);
+      expect(body.length).toBe(8);
     });
 
     it('should filter by category', async () => {
