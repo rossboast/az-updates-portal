@@ -157,6 +157,128 @@ Mock data mode provides several benefits for local development:
 4. **Cost-Free**: No Azure charges during development
 5. **Offline Work**: Develop without internet connection
 
+## Working with Real Data Locally
+
+### Option 1: Mock Data (Default)
+
+Perfect for UI development without network requests - uses hardcoded sample data.
+
+**Configuration in `api/local.settings.json`:**
+
+```json
+{
+  "DATA_MODE": "mock"
+}
+```
+
+**Features:**
+
+- 8 hardcoded sample items (updates, blogs, videos)
+- Instant startup
+- No dependencies
+
+### Option 2: Snapshot Data (Real RSS Feed Cache)
+
+Run the application with **cached real data** from Azure RSS feeds! 🎉
+
+**Step 1: Create snapshot:**
+
+```bash
+cd api
+npm run snapshot:create
+```
+
+**Step 2: Configure to use snapshot:**
+
+Update `api/local.settings.json`:
+
+```json
+{
+  "DATA_MODE": "snapshot"
+}
+```
+
+**Step 3: Restart API:**
+
+```bash
+cd api
+npm start
+```
+
+**Step 4: View in browser:**
+
+Open `http://localhost:5173` - you'll see **real Azure content**! ✨
+
+**What you get:**
+- ✅ Real blog posts from Azure blogs
+- ✅ Real YouTube videos from Microsoft events
+- ✅ Real categories (AI + machine learning, Azure SDK, etc.)
+- ✅ Real authors and publication dates
+- ✅ No network latency (cached locally)
+- ✅ Reproducible data
+
+**When to use:**
+- UI development with realistic data
+- Testing category filters with real categories
+- Demos with current Azure content
+- Development without internet connection
+
+### Option 3: Live CosmosDB
+
+Connect to real Azure CosmosDB:
+
+1. **Configure live mode** in `local.settings.json`:
+
+   ```json
+   {
+     "DATA_MODE": "live",
+     "COSMOS_ENDPOINT": "https://your-account.documents.azure.com:443/"
+   }
+   ```
+
+   ⚠️ **Note:** `DATA_MODE: "live"` requires a valid `COSMOS_ENDPOINT`
+
+2. **Authenticate with Azure:**
+
+   ```bash
+   az login
+   ```
+
+3. **Benefits:**
+
+   - Production-like testing
+   - Full CosmosDB features
+   - Real-time data updates
+
+## Understanding Real Data Structure
+
+### Discover Real Categories
+
+```bash
+cd api
+npm run snapshot:create
+npm run test:snapshot
+```
+
+Check console output for:
+
+- 📊 Real Azure Update Categories
+- 📊 Real Blog Categories
+- 🎥 Real video titles
+
+### Inspect Snapshot File
+
+```bash
+cat api/tests/fixtures/feed-snapshot.json
+```
+
+Use this to:
+
+- Plan UI filter options
+- Update mock data realism
+- Validate category assumptions
+- Understand RSS feed structure
+
 ## Troubleshooting
 
 ### API won't start

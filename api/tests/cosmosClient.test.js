@@ -4,7 +4,7 @@ import { queryUpdates, createOrUpdateItem, getItemById } from '../src/lib/cosmos
 describe('CosmosDB Client - Mock Data Mode', () => {
   beforeEach(() => {
     // Ensure we're using mock data
-    process.env.USE_MOCK_DATA = 'true';
+    process.env.DATA_MODE = 'mock';
     delete process.env.COSMOS_ENDPOINT;
   });
 

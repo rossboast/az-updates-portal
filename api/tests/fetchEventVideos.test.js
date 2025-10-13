@@ -3,7 +3,7 @@ import { fetchEventVideos } from '../src/handlers/fetchEventVideos.js';
 
 describe('Fetch Event Videos Handler', () => {
   beforeEach(() => {
-    process.env.USE_MOCK_DATA = 'true';
+    process.env.DATA_MODE = 'mock';
     delete process.env.COSMOS_ENDPOINT;
   });
 
@@ -82,10 +82,11 @@ describe('Event Video Data Model', () => {
     videos.forEach(video => {
       expect(video.categories).toBeDefined();
       expect(Array.isArray(video.categories)).toBe(true);
-      const hasEventCategory = video.categories.some(cat => 
-        cat.includes('Microsoft Build') || cat.includes('Microsoft Ignite') || cat === 'Events'
-      );
-      expect(hasEventCategory).toBe(true);
+      const normalized = video.categories.map(cat => cat.toLowerCase());
+      expect(normalized).not.toContain('videos');
+      expect(normalized).not.toContain('events');
+      expect(normalized).not.toContain('microsoft');
+      expect(video.categories).toContain('Azure');
     });
   });
 

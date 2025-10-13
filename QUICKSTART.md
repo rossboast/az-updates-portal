@@ -35,17 +35,32 @@ That's it! The command will:
 
 **Prerequisites:** Node.js 20+
 
-Run the portal locally with **mock data** - no Azure subscription required!
+Run the portal locally with your choice of data mode - no Azure subscription required!
 
 ### 1. Start the API
 
+Choose your data mode:
+
+**🎭 Mock Data (Fastest - Hardcoded Sample Data)**
 ```bash
 cd api
 npm install
 npm start
 ```
 
-The API will automatically use mock data for local development.
+**📸 Snapshot Data (Realistic - Cached Real RSS Feeds)**
+```bash
+cd api
+npm install
+npm run start:snapshot
+```
+
+**🌐 Live Data (Production - Connect to CosmosDB)**
+```bash
+cd api
+npm install
+npm run start:live
+```
 
 ### 2. Start the Web App
 
@@ -61,18 +76,29 @@ npm run dev
 
 **Open:** http://localhost:5173
 
-You'll see 6 sample updates and blog posts to test filtering and search!
-
 **API Direct Access:** http://localhost:7071/api/updates
 
 📖 **For detailed local development guide, see [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md)**
 
-### Mock Data Mode
+### Data Modes Explained
 
-The API automatically runs in mock data mode when no CosmosDB endpoint is configured. This allows you to:
-- ✅ Develop and test the UI without Azure
-- ✅ Work offline
-- ✅ Iterate quickly with no network latency
+| Mode | Command | Description | Use Case |
+|------|---------|-------------|----------|
+| **Mock** | `npm start` | 8 hardcoded items | Quick UI development, offline work |
+| **Snapshot** | `npm run start:snapshot` | ~15 real cached items | Testing with realistic data structure |
+| **Live** | `npm run start:live` | Real-time from CosmosDB | Local testing with production data |
+
+**Snapshot Management:**
+```bash
+# Fetch fresh data from RSS feeds and cache it
+npm run snapshot:create
+
+# See what's in the snapshot
+npm run snapshot:demo
+
+# Refresh snapshot and run tests
+npm run snapshot:refresh
+```
 
 **To connect to real CosmosDB locally**, see [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md#advanced-connect-to-real-cosmosdb)
 

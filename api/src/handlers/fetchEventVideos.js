@@ -5,12 +5,12 @@ const EVENT_VIDEO_FEEDS = [
   {
     url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCrhJmfAGQ5K81XQ8_od1iTg',
     name: 'Microsoft Ignite',
-    categories: ['Microsoft Ignite', 'Events', 'Videos', 'Microsoft', 'Azure']
+    categories: ['Ignite', 'Azure', 'Cloud', 'AI']
   },
   {
     url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCrhJmfAGQ5K81XQ8_od1iTg',
     name: 'Microsoft Build',
-    categories: ['Microsoft Build', 'Events', 'Videos', 'Microsoft', 'Azure']
+    categories: ['Build', 'Azure', 'Developer', 'Innovation']
   }
 ];
 
