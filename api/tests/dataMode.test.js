@@ -4,18 +4,16 @@ describe('DATA_MODE Configuration', () => {
   let cosmosClient;
 
   beforeEach(async () => {
-    // Reset the module to clear cached state
-    vi.resetModules();
-    
     // Clean up environment
     delete process.env.DATA_MODE;
     delete process.env.COSMOS_ENDPOINT;
-    
-    // Dynamically import fresh module
-    cosmosClient = await import('../src/lib/cosmosClient.js');
-  });
+  }, 5000); // Increase timeout for beforeEach
 
   it('should default to mock mode when DATA_MODE is not set', async () => {
+    // Reset and import fresh
+    vi.resetModules();
+    cosmosClient = await import('../src/lib/cosmosClient.js');
+    
     const results = await cosmosClient.queryUpdates({ query: 'SELECT * FROM c' });
     expect(results).toBeDefined();
     expect(results.length).toBe(8); // Mock data has 8 items

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-10-11T14:05:20.969Z",
+  "generatedAt": "2025-10-14T10:48:25.568Z",
   "feeds": {
     "updates": [],
     "blogs": [
@@ -7,9 +7,40 @@
         "feedUrl": "https://azure.microsoft.com/en-us/blog/feed/",
         "feedName": "Azure Blog",
         "type": "blog",
-        "fetchedAt": "2025-10-11T14:05:48.577Z",
+        "fetchedAt": "2025-10-14T10:48:50.833Z",
         "itemCount": 5,
         "items": [
+          {
+            "title": "Microsoft Azure delivers the first large scale cluster with NVIDIA GB300 NVL72 for OpenAI workloads",
+            "description": "Microsoft delivers the first at-scale production cluster with more than 4,600 NVIDIA GB300 NVL72, featuring NVIDIA Blackwell Ultra GPUs connected through the next-generation NVIDIA InfiniBand network. \nThe post Microsoft Azure delivers the first large scale cluster with NVIDIA GB300 NVL72 for OpenAI workloads appeared first on Microsoft Azure Blog.",
+            "link": "https://azure.microsoft.com/en-us/blog/microsoft-azure-delivers-the-first-large-scale-cluster-with-nvidia-gb300-nvl72-for-openai-workloads/",
+            "pubDate": "Thu, 09 Oct 2025 16:00:00 +0000",
+            "author": "Rani Borkar and Nidhi Chappell",
+            "categories": [
+              "Compute",
+              "AI",
+              "Datacenter"
+            ],
+            "videoId": null,
+            "guid": "https://azure.microsoft.com/en-us/blog/?p=47052"
+          },
+          {
+            "title": "Microsoft’s commitment to supporting cloud infrastructure demand in Asia",
+            "description": "Microsoft is expanding its cloud infrastructure across Asia to help organizations scale with secure, AI-ready services. Learn more.\nThe post Microsoft’s commitment to supporting cloud infrastructure demand in Asia appeared first on Microsoft Azure Blog.",
+            "link": "https://azure.microsoft.com/en-us/blog/microsofts-commitment-to-supporting-cloud-infrastructure-demand-in-asia/",
+            "pubDate": "Thu, 09 Oct 2025 15:00:00 +0000",
+            "author": "Omar Khan",
+            "categories": [
+              "AI + machine learning",
+              "DevOps",
+              "Internet of things",
+              "AI",
+              "Datacenter",
+              "Microsoft Cloud Adoption Framework"
+            ],
+            "videoId": null,
+            "guid": "https://azure.microsoft.com/en-us/blog/?p=46935"
+          },
           {
             "title": "Unleash your creativity at scale: Azure AI Foundry’s multimodal revolution",
             "description": "Imagine a platform where every developer can unlock the full spectrum of AI: text, images, audio, and video. This OpenAI DevDay, Azure AI Foundry is making that vision real. With today’s launch of OpenAI GPT-image-1-mini, GPT-realtime-mini, and GPT-audio-mini, plus major safety upgrades to GPT-5, you now have the ultimate toolkit to create, experiment, and scale multimodal solutions.\nThe post Unleash your creativity at scale: Azure AI Foundry’s multimodal revolution appeared first on Microsoft Azure Blog.",
@@ -47,35 +78,6 @@
             ],
             "videoId": null,
             "guid": "https://azure.microsoft.com/en-us/blog/?p=46787"
-          },
-          {
-            "title": "Introducing Microsoft Marketplace — Thousands of solutions. Millions of customers. One Marketplace.",
-            "description": "A new breed of industry-leading company is taking shape — Frontier Firms. These organizations blend human ambition with AI-powered technology to reshape how innovation is scaled, work is orchestrated and value is created. They’re accelerating AI transformation to enrich employee experiences, reinvent customer engagement, reshape business processes and unlock creativity and innovation.\nThe post Introducing Microsoft Marketplace — Thousands of solutions. Millions of customers. One Marketplace. appeared first on Microsoft Azure Blog.",
-            "link": "https://blogs.microsoft.com/blog/2025/09/25/introducing-microsoft-marketplace-thousands-of-solutions-millions-of-customers-one-marketplace/",
-            "pubDate": "Thu, 25 Sep 2025 16:03:19 +0000",
-            "author": "Alysa Taylor",
-            "categories": [
-              "AI + machine learning",
-              "AI",
-              "Azure AI Foundry",
-              "Copilot"
-            ],
-            "videoId": null,
-            "guid": "https://azure.microsoft.com/en-us/blog/?p=46778"
-          },
-          {
-            "title": "Agent Factory: Designing the open agentic web stack",
-            "description": "Unlock enterprise value with an open, secure, and interoperable AI agent ecosystem.\nThe post Agent Factory: Designing the open agentic web stack appeared first on Microsoft Azure Blog.",
-            "link": "https://azure.microsoft.com/en-us/blog/agent-factory-designing-the-open-agentic-web-stack/",
-            "pubDate": "Wed, 24 Sep 2025 15:00:00 +0000",
-            "author": "Yina Arenas and Ulrich Homann",
-            "categories": [
-              "AI + machine learning",
-              "Agent Factory",
-              "AI"
-            ],
-            "videoId": null,
-            "guid": "https://azure.microsoft.com/en-us/blog/?p=46694"
           }
         ]
       },
@@ -83,7 +85,7 @@
         "feedUrl": "https://devblogs.microsoft.com/azure-sdk/feed/",
         "feedName": "Azure SDK Blog",
         "type": "blog",
-        "fetchedAt": "2025-10-11T14:05:49.092Z",
+        "fetchedAt": "2025-10-14T10:48:50.994Z",
         "itemCount": 5,
         "items": [
           {
@@ -173,7 +175,7 @@
         "feedUrl": "https://www.youtube.com/feeds/videos.xml?channel_id=UCrhJmfAGQ5K81XQ8_od1iTg",
         "feedName": "Microsoft Azure YouTube",
         "type": "video",
-        "fetchedAt": "2025-10-11T14:05:49.870Z",
+        "fetchedAt": "2025-10-14T10:48:51.039Z",
         "itemCount": 5,
         "items": [
           {

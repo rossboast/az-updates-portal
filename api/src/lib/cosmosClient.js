@@ -183,44 +183,32 @@ function initializeCosmosClient() {
     // Validate DATA_MODE
     if (!['mock', 'snapshot', 'live'].includes(mode)) {
       console.warn(`Invalid DATA_MODE: "${mode}". Using mock data. Valid values: mock, snapshot, live`);
-      dataMode = 'mock';
       return { client: null, database: null, container: null };
-    }
-
-    // Validate LIVE mode requires COSMOS_ENDPOINT
-    if (mode === 'live') {
-      if (!endpoint || endpoint.includes('localhost')) {
-        throw new Error('DATA_MODE=live requires a valid COSMOS_ENDPOINT. Please set COSMOS_ENDPOINT in local.settings.json');
-      }
     }
 
     dataMode = mode;
 
-    // Handle MOCK mode
-    if (mode === 'mock') {
-      console.log('🎭 Using mock data for local development');
+    // MOCK and SNAPSHOT modes don't need CosmosDB
+    if (mode === 'mock' || mode === 'snapshot') {
+      console.log(`Using ${mode} data for local development`);
       return { client: null, database: null, container: null };
     }
 
-    // Handle SNAPSHOT mode
-    if (mode === 'snapshot') {
-      console.log('📸 Using snapshot data for local development');
-      return { client: null, database: null, container: null };
+    // LIVE mode - validate and connect to CosmosDB
+    if (!endpoint || endpoint.includes('localhost')) {
+      throw new Error('DATA_MODE=live requires a valid COSMOS_ENDPOINT. Please set COSMOS_ENDPOINT in local.settings.json');
     }
 
-    // Handle LIVE mode - connect to CosmosDB
-    if (mode === 'live') {
-      console.log('🌐 Connecting to live CosmosDB...');
-    }
-
+    console.log('Connecting to live CosmosDB...');
+    
     try {
       const credential = new DefaultAzureCredential();
       client = new CosmosClient({ endpoint, aadCredentials: credential });
       database = client.database(databaseName);
       container = database.container(containerName);
     } catch (error) {
-      console.error('Failed to initialize CosmosDB client, falling back to mock data:', error.message);
-      useMockData = true;
+      console.error('Failed to initialize CosmosDB client:', error.message);
+      throw error;
     }
   }
 

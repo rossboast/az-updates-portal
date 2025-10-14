@@ -1,8 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { fetchEventVideos } from '../src/handlers/fetchEventVideos.js';
 
-describe('Fetch Event Videos Handler', () => {
+describe('Fetch Event Videos Handler - Unit Tests (Mock Data)', () => {
   beforeEach(() => {
+    // Force mock data mode for unit tests
     process.env.DATA_MODE = 'mock';
     delete process.env.COSMOS_ENDPOINT;
   });
@@ -33,6 +34,7 @@ describe('Fetch Event Videos Handler', () => {
   });
 
   it('should handle YouTube RSS feed structure', () => {
+    // This tests our understanding of YouTube's RSS format
     const sampleYouTubeFeed = `
       <feed>
         <entry>
@@ -54,6 +56,7 @@ describe('Fetch Event Videos Handler', () => {
   });
 
   it('should filter videos older than one year', () => {
+    // This tests the date filtering logic
     const oneYearAgo = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
     const twoYearsAgo = new Date(Date.now() - 2 * 365 * 24 * 60 * 60 * 1000);
     const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
@@ -63,17 +66,22 @@ describe('Fetch Event Videos Handler', () => {
   });
 });
 
-describe('Event Video Data Model', () => {
+describe('Event Video Data Model - Unit Tests (Mock Data)', () => {
+  beforeEach(() => {
+    process.env.DATA_MODE = 'mock';
+  });
+
   it('should have video type in mock data', async () => {
     const { queryUpdates } = await import('../src/lib/cosmosClient.js');
     
     const results = await queryUpdates({ query: 'SELECT * FROM c' });
     const videos = results.filter(item => item.type === 'video');
     
-    expect(videos.length).toBeGreaterThan(0);
+    // Mock data has 2 videos
+    expect(videos.length).toBe(2);
   });
 
-  it('should have event categories', async () => {
+  it('should have required categories in mock videos', async () => {
     const { queryUpdates } = await import('../src/lib/cosmosClient.js');
     
     const results = await queryUpdates({ query: 'SELECT * FROM c' });
@@ -82,10 +90,14 @@ describe('Event Video Data Model', () => {
     videos.forEach(video => {
       expect(video.categories).toBeDefined();
       expect(Array.isArray(video.categories)).toBe(true);
+      
+      // Mock data should NOT have generic categories (as per requirements)
       const normalized = video.categories.map(cat => cat.toLowerCase());
       expect(normalized).not.toContain('videos');
       expect(normalized).not.toContain('events');
       expect(normalized).not.toContain('microsoft');
+      
+      // Mock data should have Azure category
       expect(video.categories).toContain('Azure');
     });
   });
@@ -97,6 +109,7 @@ describe('Event Video Data Model', () => {
     const videos = results.filter(item => item.type === 'video');
     
     videos.forEach(video => {
+      // Validate all required fields are present
       expect(video.id).toBeDefined();
       expect(video.title).toBeDefined();
       expect(video.description).toBeDefined();
@@ -105,6 +118,11 @@ describe('Event Video Data Model', () => {
       expect(video.source).toBeDefined();
       expect(video.type).toBe('video');
       expect(video.categories).toBeDefined();
+      
+      // Validate field types
+      expect(typeof video.id).toBe('string');
+      expect(typeof video.title).toBe('string');
+      expect(Array.isArray(video.categories)).toBe(true);
     });
   });
 });
