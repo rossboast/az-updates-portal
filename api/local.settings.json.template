@@ -3,7 +3,7 @@
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "USE_MOCK_DATA": "true",
+    "DATA_MODE": "mock",
     "COSMOS_ENDPOINT": "",
     "COSMOS_DATABASE_NAME": "AzureUpdatesDB",
     "COSMOS_CONTAINER_NAME": "Updates"

@@ -11,15 +11,18 @@ Complete guide to all features in the Azure Updates Portal.
 - Azure Blog (every 12 hours)
 - Azure SDK Blog (every 12 hours)
 - Azure Tech Community (every 12 hours)
+- Microsoft Build videos from YouTube (daily)
+- Microsoft Ignite videos from YouTube (daily)
 
 **What's collected:**
 - Title
 - Description/excerpt
-- Link to original content
+- Link to original content or video
 - Publication date
 - Source
 - Categories
-- Author (for blogs)
+- Author (for blogs and videos)
+- Video content from last year's events
 
 ### 2. Search & Filter
 
@@ -30,17 +33,17 @@ Complete guide to all features in the Azure Updates Portal.
 **Example**: Type "Azure Functions" to find all related content
 
 #### Type Filter
-**Options**: All, Update, Blog  
+**Options**: All, Update, Blog, Video  
 **Purpose**: Filter by content type  
 **Usage**: Click button to toggle  
-**Example**: Select "Blog" to see only blog posts
+**Example**: Select "Blog" to see only blog posts, or "Video" to see only event videos
 
 #### Category Filter
 **Options**: Dynamic (based on content)  
-**Common Categories**: AI, Compute, Integration, Development, Azure  
+**Common Categories**: AI, Compute, Integration, Development, Azure, Microsoft Build, Microsoft Ignite, Events, Videos  
 **Purpose**: Filter by topic area  
 **Usage**: Click category button to filter  
-**Example**: Select "AI" to see AI-related updates
+**Example**: Select "AI" to see AI-related updates, or "Microsoft Build" to see Build event videos
 
 #### Date Range Filter ⭐ NEW
 **Options**:

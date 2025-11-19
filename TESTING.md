@@ -4,18 +4,21 @@ This document describes the testing strategy and how to run tests for the Azure 
 
 ## Overview
 
-The project includes comprehensive automated tests for the API layer, ensuring reliability and correctness of the data operations and HTTP endpoints.
+The project includes three types of tests:
+
+1. **Unit Tests** - Test individual functions with mock data
+2. **Snapshot Tests** - Test against cached real RSS feed data
+3. **Integration Tests** - Test live RSS feeds (requires network)
 
 ## Test Statistics
 
-- **Total Tests**: 23
-- **Test Files**: 2
+- **Total Tests**: 23+ unit tests, 10+ integration tests
 - **Test Framework**: Vitest
-- **Coverage**: API handlers and CosmosDB client
+- **Coverage**: API handlers, CosmosDB client, RSS feeds
 
 ## Running Tests
 
-### Run All Tests
+### Run All Unit Tests
 
 ```bash
 cd api
@@ -29,18 +32,76 @@ cd api
 npm run test:watch
 ```
 
-### Test Output
+### Run Integration Tests (Live Feeds)
 
+Tests real RSS feeds - requires internet connection:
+
+```bash
+cd api
+npm run test:integration
 ```
- Test Files  2 passed (2)
-      Tests  23 passed (23)
-   Start at  20:46:40
-   Duration  769ms
+
+⚠️ **Note**: Integration tests make live network requests and may take 30+ seconds.
+
+### Run Snapshot Tests (Cached Real Data)
+
+Tests against locally cached real feed data:
+
+```bash
+cd api
+npm run test:snapshot
 ```
+
+## Working with Real Data
+
+### Creating a Data Snapshot
+
+Fetch real RSS feed data and cache it locally for testing:
+
+```bash
+cd api
+npm run snapshot:create
+```
+
+This creates `api/tests/fixtures/feed-snapshot.json` with:
+- 5 recent Azure updates
+- 5 recent blog posts from each blog feed
+- 5 recent YouTube videos
+
+**Benefits:**
+- ✅ See real categories, titles, and content structure
+- ✅ Test without network requests
+- ✅ Reproducible tests
+- ✅ Understand actual data format
+
+### Refreshing Snapshot Data
+
+Update cached data and re-run snapshot tests:
+
+```bash
+cd api
+npm run snapshot:refresh
+```
+
+**When to refresh:**
+- Weekly for current data
+- Before major category changes
+- When adding new feeds
+- When RSS feed structure changes
 
 ## Test Structure
 
-### 1. CosmosDB Client Tests (`cosmosClient.test.js`)
+### 1. Unit Tests (Mock Data)
+
+Fast, isolated tests using mock data:
+
+**Files:**
+
+- `cosmosClient.test.js` - Database operations
+- `updates.test.js` - API endpoints
+- `fetchEventVideos.test.js` - Video handler
+
+**CosmosDB Client Tests (`cosmosClient.test.js`)**
 
 **11 tests covering:**
 
@@ -77,31 +138,12 @@ it('should return updates with specific category', async () => {
 });
 ```
 
-### 2. API Handler Tests (`updates.test.js`)
+**API Handler Tests (`updates.test.js`)**
 
-**12 tests covering:**
+12 tests covering API endpoints, category filtering, and response formats.
 
-#### GET /api/updates
-- ✅ Return all updates
-- ✅ Filter by category query parameter
-- ✅ Respect limit parameter
-- ✅ Handle errors gracefully
+**Example:**
 
-#### GET /api/categories
-- ✅ Return all categories
-- ✅ Return unique categories only
-
-#### GET /api/updates/category/{category}
-- ✅ Return updates for specific category
-- ✅ Return empty array for non-existent category
-- ✅ Respect limit parameter
-
-#### API Response Format
-- ✅ Include CORS headers
-- ✅ Return proper JSON content type
-- ✅ Return valid JSON
-
-**Example Test:**
 ```javascript
 it('should return all updates', async () => {
   const request = createMockRequest('http://localhost:7071/api/updates');
@@ -110,13 +152,148 @@ it('should return all updates', async () => {
   const response = await getUpdates(request, context);
   
   expect(response.status).toBe(200);
-  expect(response.headers['Content-Type']).toBe('application/json');
-  
   const body = JSON.parse(response.body);
   expect(Array.isArray(body)).toBe(true);
-  expect(body.length).toBe(6);
 });
 ```
+
+### 2. Snapshot Tests (Cached Real Data)
+
+**File:** `snapshotData.test.js`
+
+Tests validate:
+
+- Real category names from Azure
+- Actual title formats
+- Author information structure
+- Video ID formats
+- Link patterns
+
+**Example:**
+
+```javascript
+it('should show real categories from Azure updates', () => {
+  const updates = snapshot.feeds.updates.flatMap(f => f.items);
+  const categories = new Set();
+  
+  updates.forEach(u => u.categories?.forEach(c => categories.add(c)));
+  
+  console.log('Real categories:', Array.from(categories));
+  expect(categories.size).toBeGreaterThan(0);
+});
+```
+
+### 3. Integration Tests (Live Feeds)
+
+**File:** `integration/fetchRealData.test.js`
+
+Tests validate:
+
+- RSS feeds are accessible
+- Feed structure hasn't changed
+- Recent content is available
+- Video IDs are valid
+- Categories exist
+
+**Example:**
+
+```javascript
+it('should fetch and parse Azure updates', async () => {
+  const feed = await parser.parseURL('https://azure.microsoft.com/en-us/updates/feed/');
+  
+  expect(feed.items.length).toBeGreaterThan(0);
+  expect(feed.items[0].title).toBeDefined();
+}, 30000); // 30 second timeout
+```
+
+## Testing Workflow
+
+### For UI Development
+
+1. Use **unit tests** with mock data for fast feedback
+2. Run `npm run snapshot:create` to see real data structure
+3. Update mock data to match real patterns
+4. Use snapshot tests to validate assumptions
+
+### Before Deployment
+
+1. Run `npm run snapshot:refresh` to update cached data
+2. Run `npm run test:integration` to verify feeds are working
+3. Run `npm test` to ensure all unit tests pass
+4. Check console output for real categories and content
+
+### When Adding New Feeds
+
+1. Add feed to handlers
+2. Run `npm run test:integration` to validate feed works
+3. Run `npm run snapshot:create` to capture sample data
+4. Review `feed-snapshot.json` to understand data structure
+5. Update mock data and tests accordingly
+
+## Understanding Real Data
+
+After creating a snapshot, examine the JSON file:
+
+```bash
+cat api/tests/fixtures/feed-snapshot.json
+```
+
+Or run snapshot tests with console output:
+
+```bash
+npm run test:snapshot
+```
+
+You'll see:
+
+- 📊 Real category names from Azure
+- ✍️ Actual author names
+- 🎥 Real video titles and IDs
+- 📅 Recent publication dates
+
+Use this information to:
+
+- Update category filters in UI
+- Adjust mock data realism
+- Validate RSS parsing logic
+- Plan new features
+
+## Continuous Integration
+
+In CI/CD pipelines:
+
+- **Run unit tests always** (fast, no network)
+- **Run integration tests periodically** (catch feed changes)
+- **Update snapshots weekly** (keep cached data fresh)
+
+## Troubleshooting
+
+### Snapshot File Missing
+
+```text
+⚠️  No snapshot found. Run: npm run snapshot:create
+```
+
+**Solution:** Create snapshot with `npm run snapshot:create`
+
+### Integration Tests Timeout
+
+**Cause:** Network issues or slow feeds  
+**Solution:** Increase timeout or skip with `npm test` (unit tests only)
+
+### Stale Snapshot Data
+
+**Symptom:** Categories don't match production  
+**Solution:** Refresh with `npm run snapshot:refresh`
+
+## Best Practices
+
+1. **Run unit tests frequently** during development
+2. **Create snapshots weekly** to stay current with real data
+3. **Run integration tests before major releases**
+4. **Commit snapshot files** to git for team consistency
+5. **Document unexpected real data patterns** you discover
+6. **Update mock data** to reflect real data structure
 
 ## Test Data
 

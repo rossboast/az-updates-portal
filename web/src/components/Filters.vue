@@ -3,7 +3,7 @@ import { useUpdatesStore } from '../stores/updates.js';
 
 const store = useUpdatesStore();
 
-const types = ['All', 'Update', 'Blog'];
+const types = ['All', 'Update', 'Blog', 'Video'];
 const dateRanges = [
   { value: 'all', label: 'All Time' },
   { value: '7days', label: 'Last 7 Days' },

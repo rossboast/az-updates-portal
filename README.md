@@ -8,7 +8,8 @@ A production-ready web application that aggregates Azure announcements, updates,
 
 **✨ Key Features:**
 - 🔄 Automatic content aggregation from multiple Azure sources
-- 🎯 Filter by category (Compute, Integration, AI, etc.)
+- 🎥 Microsoft Build and Ignite event videos from YouTube
+- 🎯 Filter by category (Compute, Integration, AI, Events, etc.)
 - 🔍 Real-time search functionality
 - 📱 Responsive, mobile-friendly design
 - 🔒 Secure with managed identities
@@ -19,19 +20,21 @@ A production-ready web application that aggregates Azure announcements, updates,
 
 ### Frontend (Vue.js 3)
 - **Modern UI**: Clean, responsive interface with gradient backgrounds and card-based layout
-- **Real-time Filtering**: Filter by category, type (updates vs blogs), and search query
-- **Configurable Categories**: Support for Azure categories like Compute, Integration, AI, Development
+- **Real-time Filtering**: Filter by category, type (updates, blogs, videos), and search query
+- **Configurable Categories**: Support for Azure categories like Compute, Integration, AI, Development, Events
 - **State Management**: Pinia store for efficient state handling
 - **API Integration**: Connects to backend API for dynamic content
 
 ### Backend (Azure Functions)
 - **REST API**: HTTP endpoints for fetching updates and categories
-- **Timer Triggers**: Automated fetching of Azure updates and blog posts
+- **Timer Triggers**: Automated fetching of Azure updates, blog posts, and event videos
 - **Multiple Sources**: Aggregates content from:
   - Azure Updates RSS feed
   - Azure Blog
   - Azure SDK Blog
   - Azure Tech Community
+  - Microsoft Build videos (YouTube)
+  - Microsoft Ignite videos (YouTube)
 - **Extensible Design**: Easy to add new feed sources
 
 ### Infrastructure (Bicep IaC)

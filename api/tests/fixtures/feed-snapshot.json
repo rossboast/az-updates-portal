@@ -1,0 +1,235 @@
+{
+  "generatedAt": "2025-10-14T10:48:25.568Z",
+  "feeds": {
+    "updates": [],
+    "blogs": [
+      {
+        "feedUrl": "https://azure.microsoft.com/en-us/blog/feed/",
+        "feedName": "Azure Blog",
+        "type": "blog",
+        "fetchedAt": "2025-10-14T10:48:50.833Z",
+        "itemCount": 5,
+        "items": [
+          {
+            "title": "Microsoft Azure delivers the first large scale cluster with NVIDIA GB300 NVL72 for OpenAI workloads",
+            "description": "Microsoft delivers the first at-scale production cluster with more than 4,600 NVIDIA GB300 NVL72, featuring NVIDIA Blackwell Ultra GPUs connected through the next-generation NVIDIA InfiniBand network. \nThe post Microsoft Azure delivers the first large scale cluster with NVIDIA GB300 NVL72 for OpenAI workloads appeared first on Microsoft Azure Blog.",
+            "link": "https://azure.microsoft.com/en-us/blog/microsoft-azure-delivers-the-first-large-scale-cluster-with-nvidia-gb300-nvl72-for-openai-workloads/",
+            "pubDate": "Thu, 09 Oct 2025 16:00:00 +0000",
+            "author": "Rani Borkar and Nidhi Chappell",
+            "categories": [
+              "Compute",
+              "AI",
+              "Datacenter"
+            ],
+            "videoId": null,
+            "guid": "https://azure.microsoft.com/en-us/blog/?p=47052"
+          },
+          {
+            "title": "Microsoft’s commitment to supporting cloud infrastructure demand in Asia",
+            "description": "Microsoft is expanding its cloud infrastructure across Asia to help organizations scale with secure, AI-ready services. Learn more.\nThe post Microsoft’s commitment to supporting cloud infrastructure demand in Asia appeared first on Microsoft Azure Blog.",
+            "link": "https://azure.microsoft.com/en-us/blog/microsofts-commitment-to-supporting-cloud-infrastructure-demand-in-asia/",
+            "pubDate": "Thu, 09 Oct 2025 15:00:00 +0000",
+            "author": "Omar Khan",
+            "categories": [
+              "AI + machine learning",
+              "DevOps",
+              "Internet of things",
+              "AI",
+              "Datacenter",
+              "Microsoft Cloud Adoption Framework"
+            ],
+            "videoId": null,
+            "guid": "https://azure.microsoft.com/en-us/blog/?p=46935"
+          },
+          {
+            "title": "Unleash your creativity at scale: Azure AI Foundry’s multimodal revolution",
+            "description": "Imagine a platform where every developer can unlock the full spectrum of AI: text, images, audio, and video. This OpenAI DevDay, Azure AI Foundry is making that vision real. With today’s launch of OpenAI GPT-image-1-mini, GPT-realtime-mini, and GPT-audio-mini, plus major safety upgrades to GPT-5, you now have the ultimate toolkit to create, experiment, and scale multimodal solutions.\nThe post Unleash your creativity at scale: Azure AI Foundry’s multimodal revolution appeared first on Microsoft Azure Blog.",
+            "link": "https://azure.microsoft.com/en-us/blog/unleash-your-creativity-at-scale-azure-ai-foundrys-multimodal-revolution/",
+            "pubDate": "Mon, 06 Oct 2025 18:03:45 +0000",
+            "author": "Steve Sweetman and Naomi Moneypenny",
+            "categories": [
+              "AI + machine learning",
+              "Large language models (LLMs)"
+            ],
+            "videoId": null,
+            "guid": "https://azure.microsoft.com/en-us/blog/?p=46969"
+          },
+          {
+            "title": "Introducing Microsoft Agent Framework",
+            "description": "Microsoft Agent Framework, now in public preview, and new capabilities in Azure AI Foundry make it easier for developers to build, observe, and govern multi-agent systems.\nThe post Introducing Microsoft Agent Framework appeared first on Microsoft Azure Blog.",
+            "link": "https://azure.microsoft.com/en-us/blog/introducing-microsoft-agent-framework/",
+            "pubDate": "Wed, 01 Oct 2025 14:00:00 +0000",
+            "author": "Yina Arenas",
+            "categories": [
+              "AI + machine learning"
+            ],
+            "videoId": null,
+            "guid": "https://azure.microsoft.com/en-us/blog/?p=46848"
+          },
+          {
+            "title": "Grok 4 is now available in Azure AI Foundry: Unlock frontier intelligence and business-ready capabilities",
+            "description": "Microsoft has collaborated closely with xAI to bring Grok 4, their most advanced model, to Azure AI Foundry—delivering powerful reasoning within a platform designed for business-ready safety and control.\nThe post Grok 4 is now available in Azure AI Foundry: Unlock frontier intelligence and business-ready capabilities appeared first on Microsoft Azure Blog.",
+            "link": "https://azure.microsoft.com/en-us/blog/grok-4-is-now-available-in-azure-ai-foundry-unlock-frontier-intelligence-and-business-ready-capabilities/",
+            "pubDate": "Mon, 29 Sep 2025 16:15:00 +0000",
+            "author": "The Azure AI Foundry Team",
+            "categories": [
+              "AI + machine learning",
+              "Large language models (LLMs)"
+            ],
+            "videoId": null,
+            "guid": "https://azure.microsoft.com/en-us/blog/?p=46787"
+          }
+        ]
+      },
+      {
+        "feedUrl": "https://devblogs.microsoft.com/azure-sdk/feed/",
+        "feedName": "Azure SDK Blog",
+        "type": "blog",
+        "fetchedAt": "2025-10-14T10:48:50.994Z",
+        "itemCount": 5,
+        "items": [
+          {
+            "title": "Azure SDK Release (September 2025)",
+            "description": "Azure SDK releases every month. In this post, you'll find this month's highlights and release notes.\nThe post Azure SDK Release (September 2025) appeared first on Azure SDK Blog.",
+            "link": "https://devblogs.microsoft.com/azure-sdk/azure-sdk-release-september-2025/",
+            "pubDate": "Thu, 02 Oct 2025 15:00:17 +0000",
+            "author": "Ronnie Geraghty",
+            "categories": [
+              "Azure SDK",
+              "release",
+              "sdk"
+            ],
+            "videoId": null,
+            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3488"
+          },
+          {
+            "title": "Azure Storage APIs gain Entra ID and RBAC support",
+            "description": "To align with security best practices, Microsoft Entra ID and RBAC support is now generally available for several Azure Storage data plane APIs.\nThe post Azure Storage APIs gain Entra ID and RBAC support appeared first on Azure SDK Blog.",
+            "link": "https://devblogs.microsoft.com/azure-sdk/azure-storage-apis-gain-entra-id-and-rbac-support/",
+            "pubDate": "Wed, 10 Sep 2025 18:24:47 +0000",
+            "author": "Christine Chen",
+            "categories": [
+              "Azure SDK",
+              ".NET",
+              "release",
+              "storage"
+            ],
+            "videoId": null,
+            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3484"
+          },
+          {
+            "title": "Azure SDK Release (August 2025)",
+            "description": "Azure SDK releases every month. In this post, you'll find this month's highlights and release notes.\nThe post Azure SDK Release (August 2025) appeared first on Azure SDK Blog.",
+            "link": "https://devblogs.microsoft.com/azure-sdk/azure-sdk-release-august-2025/",
+            "pubDate": "Tue, 19 Aug 2025 18:43:38 +0000",
+            "author": "Ronnie Geraghty",
+            "categories": [
+              "Azure SDK",
+              "release",
+              "sdk"
+            ],
+            "videoId": null,
+            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3473"
+          },
+          {
+            "title": "Azure Developer CLI (azd) – August 2025",
+            "description": "This post announces the August release of the Azure Developer CLI (`azd`).\nThe post Azure Developer CLI (azd) – August 2025 appeared first on Azure SDK Blog.",
+            "link": "https://devblogs.microsoft.com/azure-sdk/azure-developer-cli-azd-august-2025/",
+            "pubDate": "Mon, 18 Aug 2025 18:44:14 +0000",
+            "author": "PuiChee (PC) Chan",
+            "categories": [
+              "Azure SDK",
+              ".NET",
+              "azure-developer-cli",
+              "Codespaces",
+              "Docker",
+              "java",
+              "javascript",
+              "kubernetes",
+              "python",
+              "typescript",
+              "VSCode"
+            ],
+            "videoId": null,
+            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3472"
+          },
+          {
+            "title": "Azure SDK Release (July 2025)",
+            "description": "Azure SDK releases every month. In this post, you'll find this month's highlights and release notes.\nThe post Azure SDK Release (July 2025) appeared first on Azure SDK Blog.",
+            "link": "https://devblogs.microsoft.com/azure-sdk/azure-sdk-release-july-2025/",
+            "pubDate": "Wed, 30 Jul 2025 22:41:00 +0000",
+            "author": "Ronnie Geraghty",
+            "categories": [
+              "Azure SDK",
+              "release",
+              "sdk"
+            ],
+            "videoId": null,
+            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3467"
+          }
+        ]
+      }
+    ],
+    "videos": [
+      {
+        "feedUrl": "https://www.youtube.com/feeds/videos.xml?channel_id=UCrhJmfAGQ5K81XQ8_od1iTg",
+        "feedName": "Microsoft Azure YouTube",
+        "type": "video",
+        "fetchedAt": "2025-10-14T10:48:51.039Z",
+        "itemCount": 5,
+        "items": [
+          {
+            "title": "Data security and governance with Talhah Mir | Microsoft Ignite Unplugged",
+            "description": "",
+            "link": "https://www.youtube.com/watch?v=MGQegwNKRS4",
+            "pubDate": "2025-10-03T17:00:26.000Z",
+            "author": "Microsoft Events",
+            "categories": [],
+            "videoId": "MGQegwNKRS4",
+            "guid": "https://www.youtube.com/watch?v=MGQegwNKRS4"
+          },
+          {
+            "title": "Threat protection with Rob Lefferts | Microsoft Ignite Unplugged",
+            "description": "",
+            "link": "https://www.youtube.com/watch?v=y4UNT20ufjE",
+            "pubDate": "2025-10-02T00:01:14.000Z",
+            "author": "Microsoft Events",
+            "categories": [],
+            "videoId": "y4UNT20ufjE",
+            "guid": "https://www.youtube.com/watch?v=y4UNT20ufjE"
+          },
+          {
+            "title": "Securing AI: Practical Strategies from Microsoft Ignite",
+            "description": "",
+            "link": "https://www.youtube.com/shorts/uRzujC6TPgI",
+            "pubDate": "2025-09-24T19:15:26.000Z",
+            "author": "Microsoft Events",
+            "categories": [],
+            "videoId": "uRzujC6TPgI",
+            "guid": "https://www.youtube.com/shorts/uRzujC6TPgI"
+          },
+          {
+            "title": "Transforming cybersecurity with Steve Dispenza | Microsoft Ignite Unplugged",
+            "description": "",
+            "link": "https://www.youtube.com/watch?v=FPAKR5BqrjA",
+            "pubDate": "2025-09-23T20:00:54.000Z",
+            "author": "Microsoft Events",
+            "categories": [],
+            "videoId": "FPAKR5BqrjA",
+            "guid": "https://www.youtube.com/watch?v=FPAKR5BqrjA"
+          },
+          {
+            "title": "Collaboration and Knowledge Management with Jeff Teper | Microsoft Ignite Unplugged",
+            "description": "",
+            "link": "https://www.youtube.com/watch?v=g-SxoLZF-R4",
+            "pubDate": "2025-09-22T19:00:40.000Z",
+            "author": "Microsoft Events",
+            "categories": [],
+            "videoId": "g-SxoLZF-R4",
+            "guid": "https://www.youtube.com/watch?v=g-SxoLZF-R4"
+          }
+        ]
+      }
+    ]
+  }
+}

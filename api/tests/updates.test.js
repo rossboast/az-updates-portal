@@ -4,7 +4,7 @@ import { getUpdates, getCategories, getUpdatesByCategory } from '../src/handlers
 describe('Updates Handlers', () => {
   beforeEach(() => {
     // Ensure we're using mock data
-    process.env.USE_MOCK_DATA = 'true';
+    process.env.DATA_MODE = 'mock';
     delete process.env.COSMOS_ENDPOINT;
   });
 
