@@ -6,8 +6,15 @@
   "main": "src/app.js",
   "scripts": {
     "start": "func start",
+    "start:snapshot": "cross-env DATA_MODE=snapshot func start",
+    "start:live": "func start",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:integration": "vitest run tests/integration",
+    "test:snapshot": "vitest run tests/snapshotData.test.js",
+    "snapshot:create": "node scripts/fetchDataSnapshot.js",
+    "snapshot:refresh": "npm run snapshot:create && npm run test:snapshot",
+    "snapshot:demo": "node scripts/demoSnapshot.js"
   },
   "dependencies": {
     "@azure/cosmos": "^4.0.0",
@@ -17,6 +24,7 @@
     "rss-parser": "^3.13.0"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "vitest": "^1.0.0"
   }
 }
