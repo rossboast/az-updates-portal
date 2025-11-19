@@ -5,15 +5,34 @@ const AZURE_UPDATES_RSS = 'https://azurecomcdn.azureedge.net/en-us/updates/feed/
 
 const parser = new Parser();
 
-export async function fetchUpdates(myTimer, context) {
+export async function fetchUpdates(myTimer, context, options = {}) {
+  const { daysBack = null } = options;
+  
   context.log('Fetching Azure updates...');
+  
+  if (daysBack) {
+    context.log(`Filtering updates from last ${daysBack} days only`);
+  }
 
   try {
     const feedData = await parser.parseURL(AZURE_UPDATES_RSS);
-    context.log(`Found ${feedData.items.length} Azure updates`);
+    context.log(`Found ${feedData.items.length} Azure updates from RSS feed`);
+
+    let items = feedData.items;
+    
+    if (daysBack) {
+      const cutoffDate = new Date();
+      cutoffDate.setDate(cutoffDate.getDate() - daysBack);
+      
+      items = items.filter(item => {
+        const itemDate = item.pubDate || item.isoDate ? new Date(item.pubDate || item.isoDate) : new Date();
+        return itemDate >= cutoffDate;
+      });
+      context.log(`Filtered to ${items.length} updates from last ${daysBack} days`);
+    }
 
     let savedCount = 0;
-    for (const item of feedData.items) {
+    for (const item of items) {
       const update = {
         id: item.guid || item.link,
         title: item.title || '',

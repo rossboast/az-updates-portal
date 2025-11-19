@@ -346,3 +346,28 @@ export async function getItemById(id, partitionKey) {
     return null;
   }
 }
+
+export async function isFirstRun() {
+  const { container } = initializeCosmosClient();
+  
+  // In mock or snapshot mode, never consider it first run
+  if (dataMode === 'mock' || dataMode === 'snapshot') {
+    return false;
+  }
+  
+  // If no container available, not first run (probably in mock fallback)
+  if (!container) {
+    return false;
+  }
+  
+  try {
+    const { resources } = await container.items.query({
+      query: 'SELECT VALUE COUNT(1) FROM c'
+    }).fetchAll();
+    
+    return resources[0] === 0;
+  } catch (error) {
+    console.error('Failed to check if first run:', error.message);
+    return false;
+  }
+}

@@ -26,25 +26,45 @@ const parser = new Parser({
   }
 });
 
-export async function fetchEventVideos(myTimer, context) {
+export async function fetchEventVideos(myTimer, context, options = {}) {
+  const { daysBack = null } = options;
+  
   context.log('Fetching event videos from YouTube...');
+  
+  if (daysBack) {
+    context.log(`Filtering videos from last ${daysBack} days only`);
+  }
 
   let totalSaved = 0;
-  const oneYearAgo = new Date(Date.now() - ONE_YEAR_MS);
+  const defaultCutoff = new Date(Date.now() - ONE_YEAR_MS);
 
   for (const feed of EVENT_VIDEO_FEEDS) {
     try {
       context.log(`Fetching from ${feed.name}...`);
       
       const feedData = await parser.parseURL(feed.url);
-      const recentVideos = feedData.items.filter(item => {
-        const pubDate = new Date(item.pubDate || item.isoDate);
-        return pubDate >= oneYearAgo;
-      });
       
-      context.log(`Found ${recentVideos.length} videos from ${feed.name} in the last year`);
+      let items = feedData.items;
+      
+      if (daysBack) {
+        const cutoffDate = new Date();
+        cutoffDate.setDate(cutoffDate.getDate() - daysBack);
+        
+        items = items.filter(item => {
+          const itemDate = item.pubDate || item.isoDate ? new Date(item.pubDate || item.isoDate) : new Date();
+          return itemDate >= cutoffDate;
+        });
+        context.log(`Filtered to ${items.length} videos from last ${daysBack} days for ${feed.name}`);
+      } else {
+        // Default behavior - filter to last year
+        items = items.filter(item => {
+          const pubDate = new Date(item.pubDate || item.isoDate);
+          return pubDate >= defaultCutoff;
+        });
+        context.log(`Found ${items.length} videos from ${feed.name} in the last year`);
+      }
 
-      for (const item of recentVideos) {
+      for (const item of items) {
         const videoId = item.videoId || '';
         const video = {
           id: videoId ? `youtube-${videoId}` : item.guid || item.link,

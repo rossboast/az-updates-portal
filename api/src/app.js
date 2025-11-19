@@ -3,6 +3,7 @@ import { getUpdates, getCategories, getUpdatesByCategory } from './handlers/upda
 import { fetchUpdates } from './handlers/fetchUpdates.js';
 import { fetchBlogPosts } from './handlers/fetchBlogPosts.js';
 import { fetchEventVideos } from './handlers/fetchEventVideos.js';
+import { warmupCache } from './handlers/warmupCache.js';
 
 // HTTP endpoints
 app.http('getUpdates', {
@@ -40,4 +41,9 @@ app.timer('fetchBlogPosts', {
 app.timer('fetchEventVideos', {
   schedule: '0 0 0 * * *', // Daily at midnight
   handler: fetchEventVideos
+});
+
+// Warmup trigger - runs on function app cold start
+app.warmup('warmupCache', {
+  handler: warmupCache
 });

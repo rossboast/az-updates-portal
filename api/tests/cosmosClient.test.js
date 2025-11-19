@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { queryUpdates, createOrUpdateItem, getItemById } from '../src/lib/cosmosClient.js';
+import { queryUpdates, createOrUpdateItem, getItemById, isFirstRun } from '../src/lib/cosmosClient.js';
 
 describe('CosmosDB Client - Mock Data Mode', () => {
   beforeEach(() => {
@@ -135,6 +135,14 @@ describe('CosmosDB Client - Mock Data Mode', () => {
       expect(categories).toContain('AI');
       expect(categories).toContain('Compute');
       expect(categories).toContain('Integration');
+    });
+  });
+
+  describe('isFirstRun', () => {
+    it('should return false in mock mode', async () => {
+      const result = await isFirstRun();
+      
+      expect(result).toBe(false);
     });
   });
 });

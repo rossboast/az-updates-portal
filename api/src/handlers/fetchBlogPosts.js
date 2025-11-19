@@ -25,8 +25,14 @@ const parser = new Parser({
   }
 });
 
-export async function fetchBlogPosts(myTimer, context) {
+export async function fetchBlogPosts(myTimer, context, options = {}) {
+  const { daysBack = null } = options;
+  
   context.log('Fetching blog posts from multiple sources...');
+  
+  if (daysBack) {
+    context.log(`Filtering blog posts from last ${daysBack} days only`);
+  }
 
   let totalSaved = 0;
 
@@ -37,7 +43,20 @@ export async function fetchBlogPosts(myTimer, context) {
       const feedData = await parser.parseURL(feed.url);
       context.log(`Found ${feedData.items.length} posts from ${feed.name}`);
 
-      for (const item of feedData.items) {
+      let items = feedData.items;
+      
+      if (daysBack) {
+        const cutoffDate = new Date();
+        cutoffDate.setDate(cutoffDate.getDate() - daysBack);
+        
+        items = items.filter(item => {
+          const itemDate = item.pubDate || item.isoDate ? new Date(item.pubDate || item.isoDate) : new Date();
+          return itemDate >= cutoffDate;
+        });
+        context.log(`Filtered to ${items.length} posts from last ${daysBack} days for ${feed.name}`);
+      }
+
+      for (const item of items) {
         const post = {
           id: item.guid || item.link,
           title: item.title || '',
