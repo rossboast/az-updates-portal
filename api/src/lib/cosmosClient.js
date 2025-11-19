@@ -1,10 +1,17 @@
 import { CosmosClient } from '@azure/cosmos';
 import { DefaultAzureCredential } from '@azure/identity';
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let client;
 let database;
 let container;
-let useMockData = false;
+let dataMode = null; // 'mock', 'snapshot', or 'live'
+let snapshotUpdates = [];
 
 // Mock data for local development
 const mockUpdates = [
@@ -69,30 +76,139 @@ const mockUpdates = [
     source: 'Azure Updates',
     type: 'update',
     categories: ['Integration', 'Logic Apps', 'Azure']
+  },
+  {
+    id: 'mock-video-1',
+    title: 'Building Cloud-Native Applications with Azure',
+    description: 'Learn how to design and build modern cloud-native applications using Azure services. This session covers architecture patterns, best practices, and real-world examples from Microsoft Build.',
+    link: 'https://www.youtube.com/watch?v=example1',
+    publishedDate: new Date(Date.now() - 604800000).toISOString(),
+    source: 'Microsoft Build',
+    type: 'video',
+    author: 'Microsoft',
+    categories: ['Build', 'Azure', 'Developer', 'Innovation']
+  },
+  {
+    id: 'mock-video-2',
+    title: 'Azure AI Services: What\'s New',
+    description: 'Discover the latest innovations in Azure AI Services including new models, enhanced capabilities, and integration scenarios. Presented at Microsoft Ignite.',
+    link: 'https://www.youtube.com/watch?v=example2',
+    publishedDate: new Date(Date.now() - 691200000).toISOString(),
+    source: 'Microsoft Ignite',
+    type: 'video',
+    author: 'Microsoft',
+    categories: ['Ignite', 'Azure', 'Cloud', 'AI']
   }
 ];
 
+async function loadSnapshotData() {
+  if (snapshotUpdates.length > 0) {
+    return; // Already loaded
+  }
+
+  try {
+    const snapshotPath = path.join(__dirname, '../../tests/fixtures/feed-snapshot.json');
+    const data = await fs.readFile(snapshotPath, 'utf-8');
+    const snapshot = JSON.parse(data);
+
+    // Transform snapshot data into update format
+    const updates = [];
+    
+    // Add updates
+    snapshot.feeds.updates?.forEach(feed => {
+      feed.items?.forEach((item, index) => {
+        updates.push({
+          id: `snapshot-update-${feed.feedName}-${index}`,
+          title: item.title,
+          description: item.description?.substring(0, 500) || '',
+          link: item.link,
+          publishedDate: item.pubDate ? new Date(item.pubDate).toISOString() : new Date().toISOString(),
+          source: feed.feedName,
+          type: 'update',
+          categories: item.categories || []
+        });
+      });
+    });
+
+    // Add blogs
+    snapshot.feeds.blogs?.forEach(feed => {
+      feed.items?.forEach((item, index) => {
+        updates.push({
+          id: `snapshot-blog-${feed.feedName}-${index}`,
+          title: item.title,
+          description: item.description?.substring(0, 500) || '',
+          link: item.link,
+          publishedDate: item.pubDate ? new Date(item.pubDate).toISOString() : new Date().toISOString(),
+          source: feed.feedName,
+          type: 'blog',
+          author: item.author || '',
+          categories: item.categories || []
+        });
+      });
+    });
+
+    // Add videos
+    snapshot.feeds.videos?.forEach(feed => {
+      feed.items?.forEach((item, index) => {
+        const videoId = item.videoId || '';
+        updates.push({
+          id: videoId ? `youtube-${videoId}` : `snapshot-video-${feed.feedName}-${index}`,
+          title: item.title,
+          description: item.description?.substring(0, 500) || '',
+          link: videoId ? `https://www.youtube.com/watch?v=${videoId}` : item.link,
+          publishedDate: item.pubDate ? new Date(item.pubDate).toISOString() : new Date().toISOString(),
+          source: feed.feedName,
+          type: 'video',
+          author: item.author || 'Microsoft',
+          categories: item.categories || []
+        });
+      });
+    });
+
+    snapshotUpdates = updates;
+    console.log(`Loaded ${snapshotUpdates.length} items from snapshot data`);
+  } catch (error) {
+    console.warn('Could not load snapshot data:', error.message);
+    snapshotUpdates = [];
+  }
+}
+
 function initializeCosmosClient() {
-  if (!client) {
+  if (!client && !dataMode) {
     const endpoint = process.env.COSMOS_ENDPOINT;
     const databaseName = process.env.COSMOS_DATABASE_NAME || 'AzureUpdatesDB';
     const containerName = process.env.COSMOS_CONTAINER_NAME || 'Updates';
+    const mode = (process.env.DATA_MODE || 'mock').toLowerCase();
 
-    // Check if we should use mock data (local development without CosmosDB)
-    if (!endpoint || endpoint.includes('localhost') || process.env.USE_MOCK_DATA === 'true') {
-      console.log('Using mock data for local development');
-      useMockData = true;
+    // Validate DATA_MODE
+    if (!['mock', 'snapshot', 'live'].includes(mode)) {
+      console.warn(`Invalid DATA_MODE: "${mode}". Using mock data. Valid values: mock, snapshot, live`);
       return { client: null, database: null, container: null };
     }
 
+    dataMode = mode;
+
+    // MOCK and SNAPSHOT modes don't need CosmosDB
+    if (mode === 'mock' || mode === 'snapshot') {
+      console.log(`Using ${mode} data for local development`);
+      return { client: null, database: null, container: null };
+    }
+
+    // LIVE mode - validate and connect to CosmosDB
+    if (!endpoint || endpoint.includes('localhost')) {
+      throw new Error('DATA_MODE=live requires a valid COSMOS_ENDPOINT. Please set COSMOS_ENDPOINT in local.settings.json');
+    }
+
+    console.log('Connecting to live CosmosDB...');
+    
     try {
       const credential = new DefaultAzureCredential();
       client = new CosmosClient({ endpoint, aadCredentials: credential });
       database = client.database(databaseName);
       container = database.container(containerName);
     } catch (error) {
-      console.error('Failed to initialize CosmosDB client, falling back to mock data:', error.message);
-      useMockData = true;
+      console.error('Failed to initialize CosmosDB client:', error.message);
+      throw error;
     }
   }
 
@@ -102,8 +218,37 @@ function initializeCosmosClient() {
 export async function queryUpdates(querySpec, maxItems = 100) {
   const { container } = initializeCosmosClient();
   
-  if (useMockData || !container) {
-    // Return mock data filtered by query if applicable
+  // Handle SNAPSHOT mode
+  if (dataMode === 'snapshot') {
+    await loadSnapshotData();
+    console.log('Returning snapshot data');
+    let results = [...snapshotUpdates];
+    
+    // Simple filtering for category queries
+    if (querySpec.query && querySpec.query.includes('ARRAY_CONTAINS')) {
+      const categoryParam = querySpec.parameters?.find(p => p.name === '@category');
+      if (categoryParam) {
+        results = results.filter(item => 
+          item.categories && item.categories.includes(categoryParam.value)
+        );
+      }
+    }
+    
+    // Simple filtering for distinct categories query
+    if (querySpec.query && querySpec.query.includes('DISTINCT VALUE c')) {
+      const allCategories = new Set();
+      snapshotUpdates.forEach(item => {
+        item.categories?.forEach(cat => allCategories.add(cat));
+      });
+      return Array.from(allCategories);
+    }
+    
+    // Limit results
+    return results.slice(0, maxItems);
+  }
+  
+  // Handle MOCK mode
+  if (dataMode === 'mock') {
     console.log('Returning mock data');
     let results = [...mockUpdates];
     
@@ -129,22 +274,39 @@ export async function queryUpdates(querySpec, maxItems = 100) {
     // Limit results
     return results.slice(0, maxItems);
   }
+  
+  // Handle LIVE mode - query CosmosDB
+  if (!container) {
+    console.error('CosmosDB container not initialized, falling back to mock data');
+    dataMode = 'mock';
+    return queryUpdates(querySpec, maxItems);
+  }
 
   try {
     const { resources } = await container.items.query(querySpec, { maxItemCount: maxItems }).fetchAll();
     return resources;
   } catch (error) {
     console.error('CosmosDB query failed, falling back to mock data:', error.message);
-    useMockData = true;
-    return mockUpdates.slice(0, maxItems);
+    dataMode = 'mock';
+    return queryUpdates(querySpec, maxItems);
   }
 }
 
 export async function createOrUpdateItem(item) {
   const { container } = initializeCosmosClient();
   
-  if (useMockData || !container) {
+  if (dataMode === 'mock') {
     console.log('Mock mode: Item would be saved to CosmosDB:', item.id);
+    return item;
+  }
+  
+  if (dataMode === 'snapshot') {
+    console.log('Snapshot mode: Item would be saved to CosmosDB:', item.id);
+    return item;
+  }
+  
+  if (!container) {
+    console.warn('CosmosDB not available, item not saved:', item.id);
     return item;
   }
 
@@ -160,9 +322,20 @@ export async function createOrUpdateItem(item) {
 export async function getItemById(id, partitionKey) {
   const { container } = initializeCosmosClient();
   
-  if (useMockData || !container) {
+  if (dataMode === 'snapshot') {
+    await loadSnapshotData();
+    const item = snapshotUpdates.find(u => u.id === id);
+    return item || null;
+  }
+  
+  if (dataMode === 'mock') {
     const item = mockUpdates.find(u => u.id === id);
     return item || null;
+  }
+  
+  if (!container) {
+    console.warn('CosmosDB not available');
+    return null;
   }
 
   try {
@@ -177,7 +350,13 @@ export async function getItemById(id, partitionKey) {
 export async function isFirstRun() {
   const { container } = initializeCosmosClient();
   
-  if (useMockData || !container) {
+  // In mock or snapshot mode, never consider it first run
+  if (dataMode === 'mock' || dataMode === 'snapshot') {
+    return false;
+  }
+  
+  // If no container available, not first run (probably in mock fallback)
+  if (!container) {
     return false;
   }
   

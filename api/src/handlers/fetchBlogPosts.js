@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import Parser from 'rss-parser';
 import { createOrUpdateItem } from '../lib/cosmosClient.js';
 
 const BLOG_FEEDS = [
@@ -19,6 +19,12 @@ const BLOG_FEEDS = [
   }
 ];
 
+const parser = new Parser({
+  customFields: {
+    item: ['dc:creator', 'author']
+  }
+});
+
 export async function fetchBlogPosts(myTimer, context, options = {}) {
   const { daysBack = null } = options;
   
@@ -33,28 +39,46 @@ export async function fetchBlogPosts(myTimer, context, options = {}) {
   for (const feed of BLOG_FEEDS) {
     try {
       context.log(`Fetching from ${feed.name}...`);
-      const response = await fetch(feed.url);
-      const xmlText = await response.text();
+      
+      const feedData = await parser.parseURL(feed.url);
+      context.log(`Found ${feedData.items.length} posts from ${feed.name}`);
 
-      let posts = parseRSSFeed(xmlText, feed);
-      context.log(`Found ${posts.length} posts from ${feed.name}`);
-
+      let items = feedData.items;
+      
       if (daysBack) {
         const cutoffDate = new Date();
         cutoffDate.setDate(cutoffDate.getDate() - daysBack);
         
-        posts = posts.filter(post => 
-          new Date(post.publishedDate) >= cutoffDate
-        );
-        context.log(`Filtered to ${posts.length} posts from last ${daysBack} days`);
+        items = items.filter(item => {
+          const itemDate = item.pubDate || item.isoDate ? new Date(item.pubDate || item.isoDate) : new Date();
+          return itemDate >= cutoffDate;
+        });
+        context.log(`Filtered to ${items.length} posts from last ${daysBack} days for ${feed.name}`);
       }
 
-      for (const post of posts) {
-        try {
-          await createOrUpdateItem(post);
-          totalSaved++;
-        } catch (error) {
-          context.error(`Error saving post ${post.id}:`, error);
+      for (const item of items) {
+        const post = {
+          id: item.guid || item.link,
+          title: item.title || '',
+          description: (item.contentSnippet || item.content || '').substring(0, 500),
+          link: item.link || '',
+          publishedDate: item.pubDate || item.isoDate ? new Date(item.pubDate || item.isoDate).toISOString() : new Date().toISOString(),
+          source: feed.name,
+          type: 'blog',
+          author: item['dc:creator'] || item.creator || item.author || '',
+          categories: [
+            ...(item.categories || []),
+            ...feed.categories
+          ].filter((v, i, a) => a.indexOf(v) === i)
+        };
+
+        if (post.title && post.link) {
+          try {
+            await createOrUpdateItem(post);
+            totalSaved++;
+          } catch (error) {
+            context.error(`Error saving post ${post.id}:`, error);
+          }
         }
       }
     } catch (error) {
@@ -63,70 +87,4 @@ export async function fetchBlogPosts(myTimer, context, options = {}) {
   }
 
   context.log(`Successfully saved ${totalSaved} blog posts`);
-}
-
-function parseRSSFeed(xmlText, feed) {
-  const posts = [];
-  const itemRegex = /<item>([\s\S]*?)<\/item>/g;
-  const items = [...xmlText.matchAll(itemRegex)];
-
-  for (const item of items) {
-    const itemContent = item[1];
-    
-    const title = extractTag(itemContent, 'title');
-    const link = extractTag(itemContent, 'link');
-    const description = extractTag(itemContent, 'description');
-    const pubDate = extractTag(itemContent, 'pubDate');
-    const guid = extractTag(itemContent, 'guid');
-    const creator = extractTag(itemContent, 'dc:creator') || extractTag(itemContent, 'author');
-
-    const categories = extractCategories(itemContent).concat(feed.categories);
-
-    if (title && link) {
-      posts.push({
-        id: guid || link,
-        title: cleanText(title),
-        description: cleanText(description).substring(0, 500),
-        link,
-        publishedDate: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
-        source: feed.name,
-        type: 'blog',
-        author: cleanText(creator),
-        categories: [...new Set(categories)]
-      });
-    }
-  }
-
-  return posts;
-}
-
-function extractTag(text, tag) {
-  const regex = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, 'i');
-  const match = text.match(regex);
-  return match ? match[1].trim() : '';
-}
-
-function extractCategories(text) {
-  const categoryRegex = /<category>([^<]+)<\/category>/g;
-  const categories = [];
-  let match;
-  
-  while ((match = categoryRegex.exec(text)) !== null) {
-    categories.push(match[1].trim());
-  }
-  
-  return categories;
-}
-
-function cleanText(text) {
-  return text
-    .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
-    .replace(/<[^>]+>/g, '')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .trim();
 }

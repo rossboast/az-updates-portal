@@ -10,10 +10,11 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@azure/functions": "^4.0.0",
     "@azure/cosmos": "^4.0.0",
+    "@azure/functions": "^4.0.0",
     "@azure/identity": "^4.0.0",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "rss-parser": "^3.13.0"
   },
   "devDependencies": {
     "vitest": "^1.0.0"
