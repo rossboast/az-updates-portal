@@ -2,7 +2,7 @@
 name: Security-Reviewer
 description: 'Security-Reviewer'
 argument-hint: 'Perform a comprehensive security review of the codebase, identifying vulnerabilities, misconfigurations, and potential attack vectors.'
-tools: ['search', 'runTasks', 'Azure MCP/search', 'usages', 'problems', 'changes', 'testFailure', 'fetch', 'todos']
+tools: ['execute', 'read', 'search', 'web']
 model: 'Auto'
 ---
 
