@@ -31,6 +31,9 @@ resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2023-04-15' = {
       defaultConsistencyLevel: 'Session'
     }
     enableFreeTier: true
+    publicNetworkAccess: 'Enabled'
+    networkAclBypass: 'AzureServices'
+    disableKeyBasedMetadataWriteAccess: true
   }
 }
 
