@@ -17,7 +17,7 @@ describe('Integration Tests - Real RSS Feeds', () => {
   describe('Azure Updates Feed', () => {
     it('should fetch and parse Azure updates (or handle broken feed gracefully)', async () => {
       try {
-        const feed = await parser.parseURL('https://azure.microsoft.com/en-us/updates/feed/');
+        const feed = await parser.parseURL('https://www.microsoft.com/releasecommunications/api/v2/azure/rss');
         
         expect(feed).toBeDefined();
         expect(feed.items).toBeDefined();
@@ -37,7 +37,7 @@ describe('Integration Tests - Real RSS Feeds', () => {
 
     it('should have valid categories in real data (if feed is available)', async () => {
       try {
-        const feed = await parser.parseURL('https://azure.microsoft.com/en-us/updates/feed/');
+        const feed = await parser.parseURL('https://www.microsoft.com/releasecommunications/api/v2/azure/rss');
         
         const itemsWithCategories = feed.items.filter(item => item.categories?.length > 0);
         expect(itemsWithCategories.length).toBeGreaterThan(0);
@@ -124,7 +124,7 @@ describe('Integration Tests - Real RSS Feeds', () => {
   describe('Data Quality Validation', () => {
     it('should verify working feeds return recent content', async () => {
       const feeds = [
-        { url: 'https://azure.microsoft.com/en-us/updates/feed/', name: 'Azure Updates' },
+        { url: 'https://www.microsoft.com/releasecommunications/api/v2/azure/rss', name: 'Azure Updates' },
         { url: 'https://azure.microsoft.com/en-us/blog/feed/', name: 'Azure Blog' },
         { url: 'https://www.youtube.com/feeds/videos.xml?channel_id=UCrhJmfAGQ5K81XQ8_od1iTg', name: 'YouTube' }
       ];

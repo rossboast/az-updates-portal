@@ -1,7 +1,7 @@
 import Parser from 'rss-parser';
 import { createOrUpdateItem } from '../lib/cosmosClient.js';
 
-const AZURE_UPDATES_RSS = 'https://azurecomcdn.azureedge.net/en-us/updates/feed/';
+const AZURE_UPDATES_RSS = 'https://www.microsoft.com/releasecommunications/api/v2/azure/rss';
 
 const parser = new Parser();
 

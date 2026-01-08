@@ -1,79 +1,167 @@
 {
-  "generatedAt": "2025-11-19T11:22:33.677Z",
+  "generatedAt": "2026-01-08T14:24:15.152Z",
   "feeds": {
-    "updates": [],
+    "updates": [
+      {
+        "feedUrl": "https://www.microsoft.com/releasecommunications/api/v2/azure/rss",
+        "feedName": "Azure Updates",
+        "type": "update",
+        "fetchedAt": "2026-01-08T14:24:15.318Z",
+        "itemCount": 5,
+        "items": [
+          {
+            "title": "[Launched] Generally Available: Cloud-native apps on Kubernetes pricing calculator scenario ",
+            "description": "The new cloud-native apps on\r\nKubernetes pricing calculator scenario allows teams to estimate the total cost\r\nof ownership for a production-ready AKS cluster with other key Azure services,\r\nincluding Azure Container Registry, Azure Monitoring, Microsoft Defe",
+            "link": "https://azure.microsoft.com/updates?id=536560",
+            "pubDate": "Wed, 31 Dec 2025 21:00:35 Z",
+            "author": "",
+            "categories": [
+              "Launched",
+              "Compute",
+              "Containers",
+              "Azure Kubernetes Service (AKS)"
+            ],
+            "videoId": null,
+            "guid": "536560"
+          },
+          {
+            "title": "[Launched] Generally Available: Geo-Replication for Azure Service Bus Premium",
+            "description": "The Geo-Replication feature for Azure Service Bus in the\r\npremium tier is now generally available. The Service Bus Geo-Replication\r\nfeature is one of the options to insulate\r\nAzure Service Bus applications against outages and disasters, providing\r\nreplication",
+            "link": "https://azure.microsoft.com/updates?id=490149",
+            "pubDate": "Wed, 31 Dec 2025 21:00:35 Z",
+            "author": "",
+            "categories": [
+              "Launched",
+              "Integration",
+              "Service Bus",
+              "Features"
+            ],
+            "videoId": null,
+            "guid": "490149"
+          },
+          {
+            "title": "[Launched] Generally Available: Azure Premium SSD v2 Disk is now available in Austria East and in a second Availability Zone in Japan West ",
+            "description": "Azure Premium SSD v2 is now available in Austria East and in a second Availability Zone in Japan West.  Azure Premium SSD v2, a next-generation general-purpose block storage solution, offers sub-millisecond latencies and exceptional price performance for",
+            "link": "https://azure.microsoft.com/updates?id=544080",
+            "pubDate": "Wed, 31 Dec 2025 20:45:49 Z",
+            "author": "",
+            "categories": [
+              "Launched",
+              "Storage",
+              "Azure Disk Storage"
+            ],
+            "videoId": null,
+            "guid": "544080"
+          },
+          {
+            "title": "Retirement: Deprecation of Custom Resource Providers",
+            "description": "In 2026, Azure Resource Manager will be deprecating the Custom Resource Provider (CuRP) service.We will retire the feature by October 31, 2026. We will be performing a scream test on October 27, 2025, as part of this deprecation. On July 31, 2026, creates",
+            "link": "https://azure.microsoft.com/updates?id=513892",
+            "pubDate": "Mon, 29 Dec 2025 17:30:40 Z",
+            "author": "",
+            "categories": [
+              "Management and governance",
+              "Azure Resource Manager",
+              "Retirements"
+            ],
+            "videoId": null,
+            "guid": "513892"
+          },
+          {
+            "title": "[In preview] Public Preview: Azure Blob-to-Blob migration made simple with Azure Storage Mover",
+            "description": "Azure Storage Mover’s new Azure Blob container-to-container\r\nmigration feature is now in Public Preview, empowering organizations to move\r\ndata between two Blob containers within the same or different storage accounts, subscriptions or Azure regions securel",
+            "link": "https://azure.microsoft.com/updates?id=542813",
+            "pubDate": "Thu, 18 Dec 2025 18:45:03 Z",
+            "author": "",
+            "categories": [
+              "In preview",
+              "Migration",
+              "Storage",
+              "Azure Storage Mover"
+            ],
+            "videoId": null,
+            "guid": "542813"
+          }
+        ]
+      }
+    ],
     "blogs": [
       {
         "feedUrl": "https://azure.microsoft.com/en-us/blog/feed/",
         "feedName": "Azure Blog",
         "type": "blog",
-        "fetchedAt": "2025-11-19T11:22:59.152Z",
+        "fetchedAt": "2026-01-08T14:24:25.394Z",
         "itemCount": 5,
         "items": [
           {
-            "title": "Infinite scale: The architecture behind the Azure AI superfactory",
-            "description": "Today, we are unveiling the next Fairwater site of Azure AI datacenters in Atlanta, Georgia. This purpose-built datacenter is connected to our first Fairwater site in Wisconsin, prior generations of AI supercomputers and the broader Azure global datacenter footprint to create the world’s first planet-scale AI superfactory.\nThe post Infinite scale: The architecture behind the Azure AI superfactory appeared first on Microsoft Azure Blog.",
-            "link": "https://aka.ms/AAyjgcy",
-            "pubDate": "Wed, 12 Nov 2025 17:33:00 +0000",
-            "author": "Scott Guthrie",
+            "title": "Microsoft’s strategic AI datacenter planning enables seamless, large-scale NVIDIA Rubin deployments",
+            "description": "CES 2026 showcases the arrival of the NVIDIA Rubin Platform, along with Azure’s proven readiness for deployment.\nThe post Microsoft’s strategic AI datacenter planning enables seamless, large-scale NVIDIA Rubin deployments appeared first on Microsoft Azure Blog.",
+            "link": "https://azure.microsoft.com/en-us/blog/microsofts-strategic-ai-datacenter-planning-enables-seamless-large-scale-nvidia-rubin-deployments/",
+            "pubDate": "Mon, 05 Jan 2026 23:00:00 +0000",
+            "author": "Rani Borkar",
             "categories": [
               "AI + machine learning",
-              "AI"
+              "AI",
+              "Datacenter",
+              "High-performance computing"
             ],
             "videoId": null,
-            "guid": "https://azure.microsoft.com/en-us/blog/?p=47844"
+            "guid": "https://azure.microsoft.com/en-us/blog/?p=49137"
           },
           {
-            "title": "Securing our future: November 2025 progress report on Microsoft’s Secure Future Initiative",
-            "description": "When we launched the Secure Future Initiative, our mission was clear: accelerate innovation, strengthen resilience, and lead the industry toward a safer digital future.\nThe post Securing our future: November 2025 progress report on Microsoft’s Secure Future Initiative appeared first on Microsoft Azure Blog.",
-            "link": "https://www.microsoft.com/en-us/security/blog/2025/11/10/securing-our-future-november-2025-progress-report-on-microsofts-secure-future-initiative/",
-            "pubDate": "Mon, 10 Nov 2025 17:25:17 +0000",
-            "author": "Charlie Bell",
+            "title": "Microsoft named a Leader in Gartner® Magic Quadrant™ for AI Application Development Platforms",
+            "description": "We believe this recognition shows our commitment to pioneering agent frameworks, orchestration, and enterprise-grade governance.\nThe post Microsoft named a Leader in Gartner® Magic Quadrant™ for AI Application Development Platforms appeared first on Microsoft Azure Blog.",
+            "link": "https://azure.microsoft.com/en-us/blog/microsoft-named-a-leader-in-gartner-magic-quadrant-for-ai-application-development-platforms/",
+            "pubDate": "Wed, 17 Dec 2025 19:00:00 +0000",
+            "author": "Don Scott",
             "categories": [
-              "Uncategorized",
-              "AI"
+              "AI + machine learning",
+              "Developer tools",
+              "AI",
+              "Gartner® Magic Quadrant™"
             ],
             "videoId": null,
-            "guid": "https://azure.microsoft.com/en-us/blog/?p=47804"
+            "guid": "https://azure.microsoft.com/en-us/blog/?p=48959"
           },
           {
-            "title": "The new era of Azure Ultra Disk: Experience the next generation of mission-critical block storage",
-            "description": "Since its launch at Microsoft Ignite 2019, Azure Ultra Disk has powered some of the world's most demanding applications and workloads.\nThe post The new era of Azure Ultra Disk: Experience the next generation of mission-critical block storage appeared first on Microsoft Azure Blog.",
-            "link": "https://azure.microsoft.com/en-us/blog/the-new-era-of-azure-ultra-disk-experience-the-next-generation-of-mission-critical-block-storage/",
-            "pubDate": "Thu, 06 Nov 2025 17:00:00 +0000",
-            "author": "Aung Oo",
+            "title": "Azure updates for partners: December 2025",
+            "description": "Organizations leading in AI make it foundational. They rethink processes and integrate new technologies from the start to improve efficiency.\nThe post Azure updates for partners: December 2025 appeared first on Microsoft Azure Blog.",
+            "link": "https://partner.microsoft.com/en-us/blog/article/azure-updates-december-2025",
+            "pubDate": "Tue, 16 Dec 2025 18:23:05 +0000",
+            "author": "Cyril Belikoff",
             "categories": [
-              "Storage",
-              "Managed Disks"
+              "AI + machine learning",
+              "Management and governance",
+              "AI",
+              "Copilot"
             ],
             "videoId": null,
-            "guid": "https://azure.microsoft.com/en-us/blog/?p=47616"
+            "guid": "https://azure.microsoft.com/en-us/blog/?p=49034"
           },
           {
-            "title": "Driving ROI with Azure AI Foundry and UiPath: Intelligent agents in real-world healthcare workflows",
-            "description": "Automate healthcare workflows with Azure AI Foundry and UiPath to improve efficiency, reduce costs, and deliver real ROI across patient care.\nThe post Driving ROI with Azure AI Foundry and UiPath: Intelligent agents in real-world healthcare workflows appeared first on Microsoft Azure Blog.",
-            "link": "https://azure.microsoft.com/en-us/blog/driving-roi-with-azure-ai-foundry-and-uipath-intelligent-agents-in-real-world-healthcare-workflows/",
-            "pubDate": "Wed, 05 Nov 2025 18:00:00 +0000",
-            "author": "Marco Casalaina",
+            "title": "Introducing GPT-5.2 in Microsoft Foundry: The new standard for enterprise AI",
+            "description": "Discover GPT‑5.2 in Microsoft Foundry—the next standard for enterprise AI. Learn how advanced reasoning, agentic execution, and compliance-ready features empower developers and technical leaders.\nThe post Introducing GPT-5.2 in Microsoft Foundry: The new standard for enterprise AI appeared first on Microsoft Azure Blog.",
+            "link": "https://azure.microsoft.com/en-us/blog/introducing-gpt-5-2-in-microsoft-foundry-the-new-standard-for-enterprise-ai/",
+            "pubDate": "Thu, 11 Dec 2025 18:18:05 +0000",
+            "author": "Naomi Moneypenny",
             "categories": [
               "AI + machine learning"
             ],
             "videoId": null,
-            "guid": "https://azure.microsoft.com/en-us/blog/?p=47562"
+            "guid": "https://azure.microsoft.com/en-us/blog/?p=48942"
           },
           {
-            "title": "Microsoft strengthens sovereign cloud capabilities with new services",
-            "description": "We continue to adapt our sovereignty approach—innovating to meet customer needs and regulatory requirements within our Sovereign Public Cloud and Sovereign Private Cloud. We are announcing a new wave of capabilities, building upon our digital sovereignty controls, to deliver advanced AI and scale, strengthened by our ecosystem of specialized in-country partner experts.\nThe post Microsoft strengthens sovereign cloud capabilities with new services appeared first on Microsoft Azure Blog.",
-            "link": "https://azure.microsoft.com/en-us/blog/microsoft-strengthens-sovereign-cloud-capabilities-with-new-services/",
-            "pubDate": "Wed, 05 Nov 2025 07:00:00 +0000",
-            "author": "Douglas Phillips",
+            "title": "Azure Storage innovations: Unlocking the future of data",
+            "description": "Whether you are improving the resilience of mission-critical workloads or modernizing legacy systems; Azure Storage has a solution for you.\nThe post Azure Storage innovations: Unlocking the future of data appeared first on Microsoft Azure Blog.",
+            "link": "https://azure.microsoft.com/en-us/blog/azure-storage-innovations-unlocking-the-future-of-data/",
+            "pubDate": "Thu, 11 Dec 2025 16:00:00 +0000",
+            "author": "Aung Oo",
             "categories": [
-              "Hybrid + multicloud",
-              "Management and governance",
-              "Security"
+              "Storage",
+              "AI"
             ],
             "videoId": null,
-            "guid": "https://azure.microsoft.com/en-us/blog/?p=47677"
+            "guid": "https://azure.microsoft.com/en-us/blog/?p=48707"
           }
         ]
       },
@@ -81,21 +169,20 @@
         "feedUrl": "https://devblogs.microsoft.com/azure-sdk/feed/",
         "feedName": "Azure SDK Blog",
         "type": "blog",
-        "fetchedAt": "2025-11-19T11:22:59.272Z",
+        "fetchedAt": "2026-01-08T14:24:25.494Z",
         "itemCount": 5,
         "items": [
           {
-            "title": "Introducing the azd extension to configure GitHub Copilot coding agent integration with Azure",
-            "description": "This post shares how to set up the GitHub Copilot coding agent integration with Azure resources and services by using the Azure Developer CLI (`azd`) extension.\nThe post Introducing the azd extension to configure GitHub Copilot coding agent integration with Azure appeared first on Azure SDK Blog.",
-            "link": "https://devblogs.microsoft.com/azure-sdk/azure-developer-cli-copilot-coding-agent-config/",
-            "pubDate": "Thu, 30 Oct 2025 18:29:56 +0000",
+            "title": "Azure Developer CLI (azd) Dec 2025 – Extensions Enhancements, Foundry Rebranding, and Azure Pipelines Improvements",
+            "description": "This post announces the December release of the Azure Developer CLI (`azd`).\nThe post Azure Developer CLI (azd) Dec 2025 – Extensions Enhancements, Foundry Rebranding, and Azure Pipelines Improvements appeared first on Azure SDK Blog.",
+            "link": "https://devblogs.microsoft.com/azure-sdk/azure-developer-cli-azd-december-2025/",
+            "pubDate": "Fri, 19 Dec 2025 19:57:26 +0000",
             "author": "Kristen Womack",
             "categories": [
               "Azure SDK",
               ".NET",
               "azure-developer-cli",
               "Codespaces",
-              "Copilot",
               "Docker",
               "java",
               "javascript",
@@ -105,29 +192,29 @@
               "VSCode"
             ],
             "videoId": null,
-            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3518"
+            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3562"
           },
           {
-            "title": "Announcing Azure MCP Server 1.0.0 Stable Release – A New Era for Agentic Workflows",
-            "description": "Today marks a major milestone for agentic development on Azure: the stable release of the Azure MCP Server 1.0!\nThe post Announcing Azure MCP Server 1.0.0 Stable Release – A New Era for Agentic Workflows appeared first on Azure SDK Blog.",
-            "link": "https://devblogs.microsoft.com/azure-sdk/announcing-azure-mcp-server-stable-release/",
-            "pubDate": "Tue, 28 Oct 2025 18:00:57 +0000",
-            "author": "Sandeep Sen",
+            "title": "Blue-green deployment in Azure Container Apps using Azure Developer CLI",
+            "description": "Learn how to implement blue-green deployment in Azure Container Apps using Azure Developer CLI (azd) revision-based deployment strategy.\nThe post Blue-green deployment in Azure Container Apps using Azure Developer CLI appeared first on Azure SDK Blog.",
+            "link": "https://devblogs.microsoft.com/azure-sdk/azure-developer-cli-azd-blue-green-aca-deployment/",
+            "pubDate": "Tue, 09 Dec 2025 18:34:22 +0000",
+            "author": "PuiChee (PC) Chan",
             "categories": [
               "Azure SDK",
-              "Agents",
-              "AI",
-              "MCP",
-              "ml"
+              "Azure Container Apps",
+              "azure-developer-cli",
+              "Docker",
+              "python"
             ],
             "videoId": null,
-            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3512"
+            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3557"
           },
           {
-            "title": "Azure SDK Release (October 2025)",
-            "description": "Azure SDK releases every month. In this post, you'll find this month's highlights and release notes.\nThe post Azure SDK Release (October 2025) appeared first on Azure SDK Blog.",
-            "link": "https://devblogs.microsoft.com/azure-sdk/azure-sdk-release-october-2025/",
-            "pubDate": "Mon, 27 Oct 2025 18:59:41 +0000",
+            "title": "Azure SDK Release (November 2025)",
+            "description": "Azure SDK releases every month. In this post, you'll find this month's highlights and release notes.\nThe post Azure SDK Release (November 2025) appeared first on Azure SDK Blog.",
+            "link": "https://devblogs.microsoft.com/azure-sdk/azure-sdk-release-november-2025/",
+            "pubDate": "Tue, 25 Nov 2025 22:56:34 +0000",
             "author": "Ronnie Geraghty",
             "categories": [
               "Azure SDK",
@@ -135,33 +222,37 @@
               "sdk"
             ],
             "videoId": null,
-            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3506"
+            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3549"
           },
           {
-            "title": "Easily connect AI workloads to Azure Blob Storage with adlfs",
-            "description": "Microsoft works with the fsspec open-source community to enhance adlfs. This update delivers faster file operations and improved reliability for AI workloads that connect to Azure Blob and Data Lake Storage.\nThe post Easily connect AI workloads to Azure Blob Storage with adlfs appeared first on Azure SDK Blog.",
-            "link": "https://devblogs.microsoft.com/azure-sdk/easily-connect-ai-workloads-to-azure-blob-storage-with-adlfs/",
-            "pubDate": "Wed, 15 Oct 2025 17:17:17 +0000",
-            "author": "Vishnu Charan TJ",
+            "title": "Announcing the azd AI agent extension: Publish Microsoft Foundry agents directly from your development environment",
+            "description": "This post shares how to work with the new Azure Developer CLI (`azd`) agents extension.\nThe post Announcing the azd AI agent extension: Publish Microsoft Foundry agents directly from your development environment appeared first on Azure SDK Blog.",
+            "link": "https://devblogs.microsoft.com/azure-sdk/azure-developer-cli-foundry-agent-extension/",
+            "pubDate": "Wed, 19 Nov 2025 17:22:31 +0000",
+            "author": "Kristen Womack, Jeff Omhover",
             "categories": [
               "Azure SDK",
-              "adlfs",
-              "AI",
-              "blob storage",
-              "data-lake",
-              "fsspec",
-              "ml",
+              ".NET",
+              "AI agent",
+              "azure-developer-cli",
+              "Codespaces",
+              "Docker",
+              "java",
+              "javascript",
+              "kubernetes",
+              "Microsoft Foundry",
               "python",
-              "storage"
+              "typescript",
+              "VSCode"
             ],
             "videoId": null,
-            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3497"
+            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3537"
           },
           {
-            "title": "Azure Developer CLI (azd) – October 2025",
-            "description": "This post announces the October release of the Azure Developer CLI (`azd`).\nThe post Azure Developer CLI (azd) – October 2025 appeared first on Azure SDK Blog.",
-            "link": "https://devblogs.microsoft.com/azure-sdk/azure-developer-cli-azd-october-2025/",
-            "pubDate": "Tue, 14 Oct 2025 21:54:15 +0000",
+            "title": "Azure Developer CLI (azd) Nov 2025 – Container Apps (GA), Layered Provisioning (Beta), Extension Framework, and Aspire 13",
+            "description": "This post announces the November release of the Azure Developer CLI (`azd`).\nThe post Azure Developer CLI (azd) Nov 2025 – Container Apps (GA), Layered Provisioning (Beta), Extension Framework, and Aspire 13 appeared first on Azure SDK Blog.",
+            "link": "https://devblogs.microsoft.com/azure-sdk/azure-developer-cli-azd-november-2025/",
+            "pubDate": "Wed, 19 Nov 2025 16:00:44 +0000",
             "author": "PuiChee (PC) Chan",
             "categories": [
               "Azure SDK",
@@ -177,7 +268,7 @@
               "VSCode"
             ],
             "videoId": null,
-            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3494"
+            "guid": "https://devblogs.microsoft.com/azure-sdk/?p=3535"
           }
         ]
       }
@@ -187,58 +278,58 @@
         "feedUrl": "https://www.youtube.com/feeds/videos.xml?channel_id=UCrhJmfAGQ5K81XQ8_od1iTg",
         "feedName": "Microsoft Azure YouTube",
         "type": "video",
-        "fetchedAt": "2025-11-19T11:22:59.481Z",
+        "fetchedAt": "2026-01-08T14:24:25.544Z",
         "itemCount": 5,
         "items": [
           {
-            "title": "Deliver smart secure and scalable agents with MongoDB on Azure | ODSP1448",
+            "title": "Nasdaq Boardvantage: AI-driven governance on PostgreSQL and Microsoft Foundry | BRK137",
             "description": "",
-            "link": "https://www.youtube.com/watch?v=tCjQvi6qkHA",
-            "pubDate": "2025-11-19T11:00:59.000Z",
+            "link": "https://www.youtube.com/watch?v=BkOcPQntsk4",
+            "pubDate": "2025-12-09T18:08:55.000Z",
             "author": "Microsoft Events",
             "categories": [],
-            "videoId": "tCjQvi6qkHA",
-            "guid": "https://www.youtube.com/watch?v=tCjQvi6qkHA"
+            "videoId": "BkOcPQntsk4",
+            "guid": "https://www.youtube.com/watch?v=BkOcPQntsk4"
           },
           {
-            "title": "Modernizing DNS/DHCP: Micetro across hybrid and cloud environments | ODSP1424",
+            "title": "AI in the flow of human ambition | Highlights from Microsoft Ignite 2025",
             "description": "",
-            "link": "https://www.youtube.com/watch?v=EeaDXQEhy_o",
-            "pubDate": "2025-11-19T08:41:16.000Z",
+            "link": "https://www.youtube.com/shorts/Qp8Qjp5KIlU",
+            "pubDate": "2025-12-08T20:00:38.000Z",
             "author": "Microsoft Events",
             "categories": [],
-            "videoId": "EeaDXQEhy_o",
-            "guid": "https://www.youtube.com/watch?v=EeaDXQEhy_o"
+            "videoId": "Qp8Qjp5KIlU",
+            "guid": "https://www.youtube.com/shorts/Qp8Qjp5KIlU"
           },
           {
-            "title": "Bolster your data security in the AI era with Microsoft and Netskope | ODSP1476",
+            "title": "What’s new in Copilot Studio and roadmap | BRK313",
             "description": "",
-            "link": "https://www.youtube.com/watch?v=ogDdTHhDZSE",
-            "pubDate": "2025-11-19T08:39:18.000Z",
+            "link": "https://www.youtube.com/watch?v=6sI5jrNVz70",
+            "pubDate": "2025-12-03T21:38:26.000Z",
             "author": "Microsoft Events",
             "categories": [],
-            "videoId": "ogDdTHhDZSE",
-            "guid": "https://www.youtube.com/watch?v=ogDdTHhDZSE"
+            "videoId": "6sI5jrNVz70",
+            "guid": "https://www.youtube.com/watch?v=6sI5jrNVz70"
           },
           {
-            "title": "Cloud desktop and endpoint management modernization | ODSP1488",
+            "title": "Azure Arc: Extending Azure for hybrid and multi-cloud management | BRK183",
             "description": "",
-            "link": "https://www.youtube.com/watch?v=J8esrUr6iDQ",
-            "pubDate": "2025-11-19T08:27:24.000Z",
+            "link": "https://www.youtube.com/watch?v=rQBFAKJ-Ea8",
+            "pubDate": "2025-12-03T21:32:15.000Z",
             "author": "Microsoft Events",
             "categories": [],
-            "videoId": "J8esrUr6iDQ",
-            "guid": "https://www.youtube.com/watch?v=J8esrUr6iDQ"
+            "videoId": "rQBFAKJ-Ea8",
+            "guid": "https://www.youtube.com/watch?v=rQBFAKJ-Ea8"
           },
           {
-            "title": "Deploy ARM and Intel Copilot and PCs with one unified approach | ODSP1513",
+            "title": "Building the most intelligent agents with the latest knowledge sources | BRK318",
             "description": "",
-            "link": "https://www.youtube.com/watch?v=TLood2LUGtM",
-            "pubDate": "2025-11-19T08:22:51.000Z",
+            "link": "https://www.youtube.com/watch?v=mY2qaeYN_CQ",
+            "pubDate": "2025-12-03T21:30:48.000Z",
             "author": "Microsoft Events",
             "categories": [],
-            "videoId": "TLood2LUGtM",
-            "guid": "https://www.youtube.com/watch?v=TLood2LUGtM"
+            "videoId": "mY2qaeYN_CQ",
+            "guid": "https://www.youtube.com/watch?v=mY2qaeYN_CQ"
           }
         ]
       }

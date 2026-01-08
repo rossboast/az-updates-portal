@@ -18,7 +18,7 @@ const parser = new Parser({
 
 const FEEDS = {
   updates: [
-    { url: 'https://azure.microsoft.com/en-us/updates/feed/', name: 'Azure Updates' }
+    { url: 'https://www.microsoft.com/releasecommunications/api/v2/azure/rss', name: 'Azure Updates' }
   ],
   blogs: [
     { url: 'https://azure.microsoft.com/en-us/blog/feed/', name: 'Azure Blog' },
