@@ -587,3 +587,136 @@ With the recommended remediations, the application will achieve a strong securit
 
 **Report Version:** 1.0  
 **Last Updated:** December 18, 2025
+
+---
+
+## Appendix: Dependency Vulnerability Assessment (Updated January 8, 2026)
+
+### npm Audit Results
+
+A comprehensive dependency security audit was conducted using `npm audit` on January 8, 2026.
+
+#### API Dependencies (`/api`)
+
+**Initial Findings:**
+- 1 HIGH severity vulnerability (jws)
+- 2 MODERATE severity vulnerabilities (esbuild, vite)
+- Total: 3 vulnerabilities
+
+**After Remediation:**
+- 0 HIGH severity vulnerabilities ✅
+- 4 MODERATE severity vulnerabilities (development dependencies only)
+- Total production vulnerabilities: 0 ✅
+
+#### Web Dependencies (`/web`)
+
+**Initial Findings:**
+- 2 MODERATE severity vulnerabilities (esbuild, vite)
+
+**After Remediation:**
+- 2 MODERATE severity vulnerabilities (development dependencies only)
+- Total production vulnerabilities: 0 ✅
+
+### Vulnerability Details
+
+#### FIXED: jws - HMAC Signature Bypass (HIGH) ✅
+
+**CVE:** GHSA-869p-cjfg-cm3x  
+**CVSS Score:** 7.5  
+**Package:** jws < 3.2.3  
+**Status:** FIXED on January 8, 2026
+
+**Description:**  
+The `jws` package had an improper HMAC signature verification vulnerability that could allow authentication bypass. This was a transitive dependency through `@azure/identity`.
+
+**Remediation:**  
+Fixed via `npm audit fix` which updated jws to version 3.2.3.
+
+**Production Impact:** None (transitive dev dependency)
+
+#### ACCEPTED: esbuild - Development Server Exposure (MODERATE) ⚠️
+
+**CVE:** GHSA-67mh-4wv8-2f99  
+**CVSS Score:** 5.3  
+**Package:** esbuild <=0.24.2  
+**Status:** ACCEPTED RISK (dev dependency only)
+
+**Description:**  
+The esbuild development server could allow unauthorized websites to send requests and read responses during local development.
+
+**Risk Assessment:**
+- **Production Impact:** NONE - esbuild is not used in production
+- **Development Impact:** LOW - only affects local development
+- **Mitigation:** Developers should not expose development ports to the internet
+
+**Acceptance Rationale:**
+- Development dependency only
+- Not included in production builds
+- Azure Functions and App Service do not use esbuild
+- Breaking change required to fix (vitest 4.x upgrade)
+
+#### ACCEPTED: vite - File System Bypass (MODERATE) ⚠️
+
+**CVE:** GHSA-93m4-6634-74q7  
+**CVSS Score:** Not Rated  
+**Package:** vite 5.2.6 - 5.4.20  
+**Status:** ACCEPTED RISK (dev dependency only)
+
+**Description:**  
+On Windows systems, the Vite development server could allow bypassing `server.fs.deny` restrictions using backslashes.
+
+**Risk Assessment:**
+- **Production Impact:** NONE - Vite is not used in production
+- **Development Impact:** LOW - Windows-specific, local dev only
+- **Mitigation:** Production uses pre-built static files
+
+**Acceptance Rationale:**
+- Development dependency only
+- Windows-specific vulnerability
+- Not applicable to Azure deployments
+- Production builds use static files served by App Service
+
+### Dependency Security Posture
+
+| Metric | Status |
+|--------|--------|
+| Critical Vulnerabilities | 0 ✅ |
+| High Vulnerabilities (Production) | 0 ✅ |
+| High Vulnerabilities (Dev) | 0 ✅ |
+| Moderate Vulnerabilities (Production) | 0 ✅ |
+| Moderate Vulnerabilities (Dev) | 6 ⚠️ Accepted |
+| Automated Scanning | Enabled ✅ |
+| Update Policy | Documented ✅ |
+
+### Recommendations
+
+1. **Immediate Actions Completed:**
+   - ✅ Fixed high severity jws vulnerability
+   - ✅ Documented remaining moderate vulnerabilities
+   - ✅ Created dependency security policy
+
+2. **Optional Future Actions:**
+   - Consider upgrading to vitest 4.x (breaking change)
+   - Consider upgrading to vite 7.x (breaking change)
+   - These upgrades should be done as part of regular maintenance
+
+3. **Ongoing Monitoring:**
+   - Monthly `npm audit` checks
+   - GitHub Dependabot alerts enabled
+   - Review new advisories as they are published
+
+### Dependency Security Documentation
+
+Comprehensive dependency security information is maintained in:
+- [DEPENDENCY_SECURITY.md](./DEPENDENCY_SECURITY.md) - Detailed dependency vulnerability tracking
+- This document includes:
+  - Current vulnerability status
+  - Update policies
+  - CI/CD integration guidance
+  - Automated monitoring setup
+
+---
+
+**Dependency Audit Version:** 1.0  
+**Last Dependency Review:** January 8, 2026  
+**Next Dependency Review:** February 8, 2026
