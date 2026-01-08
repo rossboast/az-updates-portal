@@ -1,11 +1,25 @@
 import { queryUpdates } from '../lib/cosmosClient.js';
+import { 
+  validateLimit, 
+  validateCategory, 
+  sanitizeError,
+  createSuccessResponse,
+  createErrorResponse,
+  getOriginFromRequest
+} from '../lib/security.js';
 
 export async function getUpdates(request, context) {
+  const origin = getOriginFromRequest(request);
+  
   try {
     const url = new URL(request.url);
-    const category = url.searchParams.get('category');
-    const limit = parseInt(url.searchParams.get('limit') || '50', 10);
-
+    const categoryParam = url.searchParams.get('category');
+    const limitParam = url.searchParams.get('limit');
+    
+    // Validate and sanitize inputs
+    const category = validateCategory(categoryParam);
+    const limit = validateLimit(limitParam, 50, 1000);
+    
     let querySpec = {
       query: 'SELECT * FROM c ORDER BY c.publishedDate DESC',
       parameters: []
@@ -20,25 +34,16 @@ export async function getUpdates(request, context) {
 
     const updates = await queryUpdates(querySpec, limit);
 
-    return {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify(updates)
-    };
+    return createSuccessResponse(updates, origin);
   } catch (error) {
-    context.error('Error fetching updates:', error);
-    return {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: 'Failed to fetch updates' })
-    };
+    context.error('Error fetching updates:', sanitizeError(error));
+    return createErrorResponse(500, 'Failed to fetch updates', origin);
   }
 }
 
 export async function getCategories(request, context) {
+  const origin = getOriginFromRequest(request);
+  
   try {
     const querySpec = {
       query: 'SELECT DISTINCT VALUE c FROM u JOIN c IN u.categories'
@@ -46,28 +51,27 @@ export async function getCategories(request, context) {
 
     const categories = await queryUpdates(querySpec, 100);
 
-    return {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify(categories)
-    };
+    return createSuccessResponse(categories, origin);
   } catch (error) {
-    context.error('Error fetching categories:', error);
-    return {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: 'Failed to fetch categories' })
-    };
+    context.error('Error fetching categories:', sanitizeError(error));
+    return createErrorResponse(500, 'Failed to fetch categories', origin);
   }
 }
 
 export async function getUpdatesByCategory(request, context) {
+  const origin = getOriginFromRequest(request);
+  
   try {
-    const category = request.params.category;
-    const limit = parseInt(new URL(request.url).searchParams.get('limit') || '50', 10);
+    const categoryParam = request.params.category;
+    const limitParam = new URL(request.url).searchParams.get('limit');
+    
+    // Validate and sanitize inputs
+    const category = validateCategory(categoryParam);
+    const limit = validateLimit(limitParam, 50, 1000);
+    
+    if (!category) {
+      return createErrorResponse(400, 'Invalid category parameter', origin);
+    }
 
     const querySpec = {
       query: 'SELECT * FROM c WHERE ARRAY_CONTAINS(c.categories, @category) ORDER BY c.publishedDate DESC',
@@ -76,20 +80,9 @@ export async function getUpdatesByCategory(request, context) {
 
     const updates = await queryUpdates(querySpec, limit);
 
-    return {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify(updates)
-    };
+    return createSuccessResponse(updates, origin);
   } catch (error) {
-    context.error('Error fetching updates by category:', error);
-    return {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ error: 'Failed to fetch updates' })
-    };
+    context.error('Error fetching updates by category:', sanitizeError(error));
+    return createErrorResponse(500, 'Failed to fetch updates', origin);
   }
 }

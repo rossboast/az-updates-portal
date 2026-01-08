@@ -66,6 +66,9 @@ module cosmos './core/database/cosmos-account.bicep' = {
   }
 }
 
+// Define web app name for use in function app config
+var webAppName = '${abbrs.webSitesAppService}${resourceToken}'
+
 module functionApp './core/host/functions-flexconsumption.bicep' = {
   name: 'functionApp'
   scope: rg
@@ -79,6 +82,7 @@ module functionApp './core/host/functions-flexconsumption.bicep' = {
       COSMOS_ENDPOINT: cosmos.outputs.endpoint
       COSMOS_DATABASE_NAME: 'AzureUpdatesDB'
       COSMOS_CONTAINER_NAME: 'Updates'
+      WEB_APP_URL: 'https://${webAppName}.azurewebsites.net'
     }
   }
 }
@@ -89,7 +93,7 @@ module appService './core/host/appservice.bicep' = {
   params: {
     location: location
     tags: tags
-    name: '${abbrs.webSitesAppService}${resourceToken}'
+    name: webAppName
     applicationInsightsName: monitoring.outputs.applicationInsightsName
     appSettings: {
       VITE_API_URL: 'https://${functionApp.outputs.name}.azurewebsites.net/api'
